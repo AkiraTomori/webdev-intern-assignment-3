@@ -1,0 +1,31 @@
+# Local development database only. Application containers (backend, frontend,
+# seeder) are ticket N2 and are not defined here yet.
+#
+# Run from the repo root:
+#   docker compose -f infrastructure/docker-compose.yaml up -d
+#
+# Local-only: bound to 127.0.0.1 with no password (trust auth), so there is no
+# secret in this file. Do not reuse this setup on a public host.
+name: g-scores
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: g_scores
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Runs only when the data volume is first created; adds the disposable test database.
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d g_scores"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
