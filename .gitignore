@@ -89,6 +89,7 @@ out/
 
 # Framework caches / build dirs
 .next/
+next-env.d.ts
 .nuxt/
 .svelte-kit/
 .angular/
