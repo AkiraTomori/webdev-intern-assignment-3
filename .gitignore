@@ -1,0 +1,212 @@
+# ---------- OS ----------
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ---------- Editors / IDEs ----------
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*~
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# ---------- Secrets / environment ----------
+# Keep templates (.env.example) tracked; never commit real values.
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.keystore
+
+# ---------- Logs / runtime ----------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.pid
+*.pid.lock
+*.seed
+
+# ---------- Coverage / test output ----------
+coverage/
+.nyc_output/
+*.lcov
+htmlcov/
+.coverage
+.coverage.*
+.pytest_cache/
+.tox/
+.nox/
+.hypothesis/
+playwright-report/
+test-results/
+cypress/videos/
+cypress/screenshots/
+
+# ---------- Node.js (React, Vue, Angular, Next, Nuxt, NestJS, Express) ----------
+node_modules/
+jspm_packages/
+.npm/
+.pnpm-store/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+*.tgz
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+.temp/
+.tmp/
+.node_repl_history
+*.tsbuildinfo
+
+# Build output
+dist/
+dist-ssr/
+build/
+out/
+.output/
+
+# Framework caches / build dirs
+.next/
+.nuxt/
+.svelte-kit/
+.angular/
+.vite/
+.turbo/
+.vercel/
+.netlify/
+.docusaurus/
+.expo/
+.serverless/
+.fusebox/
+.dynamodb/
+storybook-static/
+
+# ---------- Python (Django, Flask, FastAPI) ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.ipynb_checkpoints/
+# Django
+staticfiles/
+media/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# ---------- PHP (Laravel, Symfony) ----------
+vendor/
+.phpunit.result.cache
+.phpunit.cache/
+.php-cs-fixer.cache
+/public/hot
+/public/storage
+/storage/*.key
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+bootstrap/cache/*.php
+Homestead.json
+Homestead.yaml
+auth.json
+
+# ---------- Ruby (Rails) ----------
+/tmp/*
+!/tmp/.keep
+/log/*
+!/log/.keep
+/public/assets
+/public/packs
+/public/packs-test
+.bundle/
+/config/master.key
+*.rbc
+
+# ---------- Java / Kotlin (Spring, Gradle, Maven) ----------
+target/
+.gradle/
+/build/
+*.class
+*.jar
+*.war
+*.ear
+!gradle/wrapper/gradle-wrapper.jar
+hs_err_pid*
+
+# ---------- .NET ----------
+bin/
+obj/
+*.user
+*.suo
+
+# ---------- Go / Rust ----------
+/bin/
+# Cargo.lock is tracked for applications; keep it out only for libraries.
+
+# ---------- Local databases / data dumps ----------
+# dataset/ is the read-only assignment input and stays tracked.
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+*.dump
+*.bak
+/database/data/
+/database/*.local.*
+.data/
+pgdata/
+mysql-data/
+mongo-data/
+
+# ---------- Docker ----------
+docker-compose.override.yml
+compose.override.yaml
+.docker/
+
+# ---------- Uploads / generated artifacts ----------
+uploads/
+*.zip
+*.tar
+*.tar.gz
+
+# ---------- Claude Code / agents (personal, per-machine) ----------
+# Shared settings (.claude/settings.json, hooks, README) stay tracked.
+.claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md
+.mcp.local.json
+
+# ---------- Prisma generated client ----------
+backend/generated/
