@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../../backend/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// One row per candidate. A blank score in the CSV means the candidate did not
+// take that subject: it is stored as NULL, never 0 (P1). CHECK constraints
+// (SBD format, score range, exam-code pairing) live in the migration SQL
+// because Prisma schema cannot express them.
+model Candidate {
+  sbd          String   @id @db.Char(8)
+  toan         Decimal? @db.Decimal(4, 2)
+  ngu_van      Decimal? @db.Decimal(4, 2)
+  ngoai_ngu    Decimal? @db.Decimal(4, 2)
+  vat_li       Decimal? @db.Decimal(4, 2)
+  hoa_hoc      Decimal? @db.Decimal(4, 2)
+  sinh_hoc     Decimal? @db.Decimal(4, 2)
+  lich_su      Decimal? @db.Decimal(4, 2)
+  dia_li       Decimal? @db.Decimal(4, 2)
+  gdcd         Decimal? @db.Decimal(4, 2)
+  ma_ngoai_ngu String?  @db.VarChar(2)
+
+  @@map("candidates")
+}
