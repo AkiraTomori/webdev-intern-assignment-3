@@ -6,7 +6,8 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",
