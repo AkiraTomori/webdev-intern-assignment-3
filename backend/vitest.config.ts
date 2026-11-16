@@ -8,14 +8,15 @@ export default defineConfig({
       {
         test: {
           name: "unit",
-          include: ["test/domain/**/*.test.ts"],
+          include: ["test/domain/**/*.test.ts", "test/seed/**/*.test.ts"],
+          exclude: ["test/seed/**/*.db.test.ts"],
         },
       },
       {
         test: {
           name: "db",
           include: ["test/**/*.test.ts"],
-          exclude: ["test/domain/**"],
+          exclude: ["test/domain/**", "test/seed/candidate-row.test.ts"],
           globalSetup: ["./test/global-setup.ts"],
           fileParallelism: false, // all DB tests share one disposable database
         },
