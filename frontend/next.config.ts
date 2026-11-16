@@ -1,0 +1,30 @@
+import createNextIntlPlugin from "next-intl/plugin";
+import type { NextConfig } from "next";
+
+// The only place BACKEND_URL is read (codebase §3). Never echo the value.
+const DEFAULT_BACKEND_URL = "http://127.0.0.1:4000";
+
+function backendUrl(): string {
+  const raw = process.env.BACKEND_URL?.trim() || DEFAULT_BACKEND_URL;
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    throw new Error("BACKEND_URL is not a valid URL. Expected something like http://127.0.0.1:4000");
+  }
+  if (url.protocol !== "http:" && url.protocol !== "https:") {
+    throw new Error("BACKEND_URL must start with http:// or https://");
+  }
+  return url.origin;
+}
+
+const nextConfig: NextConfig = {
+  // `next dev` otherwise writes a frontend/AGENTS.md; agent rules live in the root AGENTS.md.
+  agentRules: false,
+  // The browser calls /api/* on the frontend origin; Next forwards it to the backend. No CORS.
+  async rewrites() {
+    return [{ source: "/api/:path*", destination: `${backendUrl()}/api/:path*` }];
+  },
+};
+
+export default createNextIntlPlugin("./i18n/request.ts")(nextConfig);

@@ -1,0 +1,90 @@
+{
+  "shell": {
+    "appName": "G-Scores",
+    "skipToContent": "Bỏ qua tới nội dung",
+    "navLabel": "Điều hướng chính",
+    "nav": {
+      "home": "Trang chủ",
+      "lookup": "Tra cứu điểm",
+      "reports": "Báo cáo",
+      "topGroupA": "Top 10 khối A"
+    },
+    "language": {
+      "label": "Ngôn ngữ",
+      "vi": "Tiếng Việt",
+      "en": "English"
+    },
+    "theme": {
+      "label": "Giao diện",
+      "light": "Sáng",
+      "dark": "Tối",
+      "system": "Theo hệ thống"
+    },
+    "footer": "G-Scores · Dữ liệu điểm thi THPT 2024"
+  },
+  "home": {
+    "title": "G-Scores",
+    "intro": "Tra cứu và thống kê điểm thi THPT 2024.",
+    "cards": {
+      "lookup": {
+        "title": "Tra cứu điểm",
+        "description": "Nhập số báo danh để xem điểm từng môn."
+      },
+      "reports": {
+        "title": "Báo cáo",
+        "description": "Số thí sinh theo bốn mức điểm của từng môn."
+      },
+      "topGroupA": {
+        "title": "Top 10 khối A",
+        "description": "Mười thí sinh có tổng điểm Toán, Vật lí, Hoá học cao nhất."
+      }
+    }
+  },
+  "lookup": {
+    "title": "Tra cứu điểm",
+    "placeholder": "Chức năng tra cứu điểm sẽ có ở đây."
+  },
+  "reports": {
+    "title": "Báo cáo",
+    "placeholder": "Biểu đồ thống kê điểm sẽ có ở đây."
+  },
+  "topGroupA": {
+    "title": "Top 10 khối A",
+    "placeholder": "Bảng top 10 khối A sẽ có ở đây."
+  },
+  "subject": {
+    "toan": "Toán",
+    "ngu_van": "Ngữ văn",
+    "ngoai_ngu": "Ngoại ngữ",
+    "vat_li": "Vật lí",
+    "hoa_hoc": "Hoá học",
+    "sinh_hoc": "Sinh học",
+    "lich_su": "Lịch sử",
+    "dia_li": "Địa lí",
+    "gdcd": "GDCD"
+  },
+  "level": {
+    "gte8": "≥ 8",
+    "gte6": "6 ≤ x < 8",
+    "gte4": "4 ≤ x < 6",
+    "lt4": "< 4"
+  },
+  "error": {
+    "INVALID_SBD": "SBD gồm đúng 8 chữ số",
+    "CANDIDATE_NOT_FOUND": "Không tìm thấy thí sinh với SBD này",
+    "INVALID_PARAMETER": "Tham số không hợp lệ",
+    "NOT_FOUND": "Không tìm thấy nội dung yêu cầu",
+    "INTERNAL_ERROR": "Hệ thống gặp lỗi, vui lòng thử lại sau",
+    "network": "Không kết nối được tới máy chủ, vui lòng thử lại"
+  },
+  "notFound": {
+    "title": "Không tìm thấy trang",
+    "body": "Trang bạn mở không tồn tại.",
+    "back": "Về trang chủ"
+  },
+  "errorPage": {
+    "title": "Đã xảy ra lỗi",
+    "body": "Trang không hiển thị được. Hãy thử lại.",
+    "retry": "Thử lại"
+  }
+}

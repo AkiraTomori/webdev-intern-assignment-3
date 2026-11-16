@@ -2,7 +2,8 @@
   "name": "g-scores",
   "private": true,
   "workspaces": [
-    "backend"
+    "backend",
+    "frontend"
   ],
   "engines": {
     "node": "^22.18.0 || ^24.11.0 || >=26.0.0"

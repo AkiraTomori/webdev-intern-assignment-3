@@ -1,0 +1,90 @@
+{
+  "shell": {
+    "appName": "G-Scores",
+    "skipToContent": "Skip to content",
+    "navLabel": "Main navigation",
+    "nav": {
+      "home": "Home",
+      "lookup": "Score lookup",
+      "reports": "Reports",
+      "topGroupA": "Top 10 group A"
+    },
+    "language": {
+      "label": "Language",
+      "vi": "Tiếng Việt",
+      "en": "English"
+    },
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "footer": "G-Scores · 2024 national high school exam scores"
+  },
+  "home": {
+    "title": "G-Scores",
+    "intro": "Look up and analyse the 2024 national high school exam scores.",
+    "cards": {
+      "lookup": {
+        "title": "Score lookup",
+        "description": "Enter a registration number to see the score of each subject."
+      },
+      "reports": {
+        "title": "Reports",
+        "description": "Number of candidates in each of four score levels, per subject."
+      },
+      "topGroupA": {
+        "title": "Top 10 group A",
+        "description": "The ten candidates with the highest Mathematics, Physics and Chemistry total."
+      }
+    }
+  },
+  "lookup": {
+    "title": "Score lookup",
+    "placeholder": "Score lookup will appear here."
+  },
+  "reports": {
+    "title": "Reports",
+    "placeholder": "The score statistics chart will appear here."
+  },
+  "topGroupA": {
+    "title": "Top 10 group A",
+    "placeholder": "The top 10 group A table will appear here."
+  },
+  "subject": {
+    "toan": "Mathematics",
+    "ngu_van": "Literature",
+    "ngoai_ngu": "Foreign language",
+    "vat_li": "Physics",
+    "hoa_hoc": "Chemistry",
+    "sinh_hoc": "Biology",
+    "lich_su": "History",
+    "dia_li": "Geography",
+    "gdcd": "Civic education"
+  },
+  "level": {
+    "gte8": "≥ 8",
+    "gte6": "6 ≤ x < 8",
+    "gte4": "4 ≤ x < 6",
+    "lt4": "< 4"
+  },
+  "error": {
+    "INVALID_SBD": "Registration number must be exactly 8 digits",
+    "CANDIDATE_NOT_FOUND": "No candidate found with this registration number",
+    "INVALID_PARAMETER": "Invalid parameter",
+    "NOT_FOUND": "The requested content was not found",
+    "INTERNAL_ERROR": "Something went wrong, please try again later",
+    "network": "Could not reach the server, please try again"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page you opened does not exist.",
+    "back": "Back to home"
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "body": "This page could not be shown. Please try again.",
+    "retry": "Try again"
+  }
+}
