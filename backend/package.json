@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "tsx watch index.ts",
+    "start": "tsx index.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
@@ -13,10 +15,12 @@
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",
     "@prisma/client": "7.10.1",
+    "express": "5.3.0",
     "pg": "8.23.1",
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@types/express": "5.0.6",
     "@types/node": "26.6.6",
     "@types/pg": "8.23.1",
     "prisma": "7.10.1",
