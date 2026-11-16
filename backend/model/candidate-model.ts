@@ -1,6 +1,6 @@
 import { Prisma } from "../generated/prisma/client";
 import type { PrismaClient } from "../generated/prisma/client";
-import { subjects, type Score, type SubjectCode } from "../domain";
+import { Score, subjects, type SubjectCode } from "../domain";
 
 /** A validated candidate ready to store. `null` score = did not sit the subject (never 0). */
 export interface NewCandidate {
@@ -38,4 +38,35 @@ export async function insertCandidateBatch(prisma: PrismaClient, rows: readonly 
     return Prisma.sql`(${Prisma.join(values)})`;
   });
   return prisma.$executeRaw`INSERT INTO "candidates" (${columns}) VALUES ${Prisma.join(tuples)}`;
+}
+
+/** A stored candidate as domain values. Prisma's Decimal never leaves this file. */
+export interface CandidateRecord {
+  readonly sbd: string;
+  readonly scores: Readonly<Record<SubjectCode, Score | null>>;
+  readonly maNgoaiNgu: string | null;
+}
+
+/** Primary-key lookup. `sbd` is CHAR(8) compared as a string, so "1000001" never matches "01000001". */
+export async function findCandidateBySbd(prisma: PrismaClient, sbd: string): Promise<CandidateRecord | null> {
+  const row = await prisma.candidate.findUnique({ where: { sbd } });
+  if (!row) return null;
+  const scores = {} as Record<SubjectCode, Score | null>;
+  for (const code of subjects.codes()) {
+    const value = row[code];
+    if (value === null) {
+      scores[code] = null;
+      continue;
+    }
+    const parsed = Score.parse(value.toString());
+    // DB1's CHECK constraints make this unreachable; if it ever happens it is corrupt data, not a client error.
+    if (!parsed.ok) throw new Error(`Stored ${code} score for a candidate is not a valid score (${parsed.reason})`);
+    scores[code] = parsed.score;
+  }
+  return { sbd: row.sbd, scores, maNgoaiNgu: row.ma_ngoai_ngu };
+}
+
+/** Prisma has no ping API, so a trivial query is the health probe. Throws if the database is unreachable. */
+export async function pingDatabase(prisma: PrismaClient): Promise<void> {
+  await prisma.$queryRaw`SELECT 1`;
 }
