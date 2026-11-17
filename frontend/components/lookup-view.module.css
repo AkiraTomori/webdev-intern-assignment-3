@@ -42,3 +42,10 @@
 .sbd {
   font-variant-numeric: tabular-nums;
 }
+
+/* Fingers need 44px (WCAG 2.5.5); a mouse keeps the compact size (design N1 §N1.3). */
+@media (pointer: coarse) {
+  .input {
+    min-height: 2.75rem;
+  }
+}

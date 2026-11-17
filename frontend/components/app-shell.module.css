@@ -82,6 +82,17 @@
   border-top: 1px solid var(--border);
 }
 
+/* Phones: narrower margins leave ~318px of content at 360px instead of ~286px (design N1 §N1.3). */
+@media (max-width: 767px) {
+  .body {
+    padding: 0.5rem;
+  }
+
+  .main {
+    padding: 0.75rem;
+  }
+}
+
 @media (min-width: 768px) {
   .body {
     flex-direction: row;
