@@ -59,7 +59,14 @@
   },
   "reports": {
     "title": "Báo cáo",
-    "placeholder": "Biểu đồ thống kê điểm sẽ có ở đây."
+    "intro": "Số thí sinh theo bốn mức điểm của từng môn. Chỉ tính thí sinh có thi môn đó.",
+    "chartLabel": "Biểu đồ cột: số thí sinh theo bốn mức điểm của chín môn. Số liệu đầy đủ nằm ở bảng bên dưới.",
+    "tableCaption": "Số thí sinh theo mức điểm và theo môn",
+    "subjectColumn": "Môn",
+    "totalColumn": "Tổng số thí sinh có điểm",
+    "tooltipTotal": "{count} thí sinh có điểm",
+    "empty": "Chưa có dữ liệu để thống kê.",
+    "emptyHint": "Hãy chạy seeder để nạp điểm thi vào cơ sở dữ liệu, rồi tải lại trang."
   },
   "topGroupA": {
     "title": "Top 10 khối A",

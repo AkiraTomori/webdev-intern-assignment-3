@@ -59,7 +59,14 @@
   },
   "reports": {
     "title": "Reports",
-    "placeholder": "The score statistics chart will appear here."
+    "intro": "Number of candidates in four score bands for each subject. Only candidates who took the subject are counted.",
+    "chartLabel": "Bar chart: number of candidates in four score bands for nine subjects. The full figures are in the table below.",
+    "tableCaption": "Number of candidates by score band and subject",
+    "subjectColumn": "Subject",
+    "totalColumn": "Candidates with a score",
+    "tooltipTotal": "{count} candidates with a score",
+    "empty": "There is no data to report yet.",
+    "emptyHint": "Run the seeder to load the exam scores into the database, then reload the page."
   },
   "topGroupA": {
     "title": "Top 10 group A",

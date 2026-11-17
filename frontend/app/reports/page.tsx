@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { ReportsView } from "@/components/reports-view";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("reports");
@@ -12,7 +13,8 @@ export default async function ReportsPage() {
   return (
     <>
       <h1>{t("title")}</h1>
-      <p>{t("placeholder")}</p>
+      <p>{t("intro")}</p>
+      <ReportsView />
     </>
   );
 }
