@@ -5,7 +5,7 @@ import { formatCount } from "@/lib/format-count";
 import card from "./card.module.css";
 import styles from "./reports-view.module.css";
 
-/** The numbers behind the chart. Required, not optional: colour is never the only way to read them (GS-03-AC03). */
+/** The numbers behind the chart. Required, not optional: colour is never the only way to read them. */
 export function ScoreLevelTable({ report }: { report: ScoreLevelsReport }) {
   const t = useTranslations();
   const locale = useLocale();

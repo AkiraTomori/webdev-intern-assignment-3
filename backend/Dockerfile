@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 # Backend image, built from the repo root (see infrastructure/docker-compose.yaml). Targets:
-#   api    Express server: runtime dependencies + backend source only (design N2b §3.2)
+#   api    Express server: runtime dependencies + backend source only
 #   tools  migrate + seed one-shot: keeps the Prisma CLI and database/, runs once then exits
-# Debian slim, not Alpine: Prisma's schema engine is a glibc/OpenSSL binary (design N2 §N2.3).
+# Debian slim, not Alpine: Prisma's schema engine is a glibc/OpenSSL binary.
 
 FROM node:26.6.0-bookworm-slim AS base
 WORKDIR /app

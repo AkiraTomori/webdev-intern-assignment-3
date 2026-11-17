@@ -1,7 +1,7 @@
 import { getJson } from "./client";
 import { isRecord, isSbd, isScore } from "./guards";
 
-/** Field names of api.md §5, not a definition of group A. test/vocabulary.test.ts compares them with GROUP_A. */
+/** Field names of the top-list rows, not a definition of group A. test/vocabulary.test.ts compares them with GROUP_A. */
 export const GROUP_A_CODES = ["toan", "vat_li", "hoa_hoc"] as const;
 export type GroupACode = (typeof GROUP_A_CODES)[number];
 
@@ -10,7 +10,7 @@ export type TopGroupARow = { rank: number; sbd: string; total: number } & Record
 const MAX_ROWS = 10;
 const MAX_TOTAL = 30;
 
-/** Accepts api.md §5 (0 to 10 rows, ranks 1..n). Order is the API's: nothing re-sorts it (GS-04-AC05). */
+/** Accepts the top-list response (rows ranked 1..n). Order is the API's: nothing re-sorts it. */
 export function parseTopGroupAResponse(data: unknown): TopGroupARow[] | null {
   if (!Array.isArray(data) || data.length > MAX_ROWS) return null;
 

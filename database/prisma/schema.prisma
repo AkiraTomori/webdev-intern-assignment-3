@@ -8,7 +8,7 @@ datasource db {
 }
 
 // One row per candidate. A blank score in the CSV means the candidate did not
-// take that subject: it is stored as NULL, never 0 (P1). CHECK constraints
+// take that subject: it is stored as NULL, never 0. CHECK constraints
 // (SBD format, score range, exam-code pairing) live in the migration SQL
 // because Prisma schema cannot express them.
 model Candidate {

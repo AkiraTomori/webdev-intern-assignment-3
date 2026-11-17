@@ -2,7 +2,7 @@ import { ForeignLanguageSubject, Subject } from "./subject";
 import { SubjectGroup } from "./subject-group";
 import { SubjectRegistry } from "./subject-registry";
 
-// The one place subjects are defined. Order = CSV column order = api.md §3.
+// The one place subjects are defined. Order = CSV column order = order of the subjects in API responses.
 export const subjects = new SubjectRegistry([
   new Subject("toan", "Toán"),
   new Subject("ngu_van", "Ngữ văn"),

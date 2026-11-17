@@ -5,7 +5,7 @@ import { formatScore } from "@/lib/format-score";
 import card from "./card.module.css";
 import styles from "./lookup-view.module.css";
 
-/** Nine rows in SUBJECT_CODES order. A missing score is "Not taken", never 0 (GS-02-AC02). */
+/** Nine rows in SUBJECT_CODES order. A missing score is "Not taken", never 0. */
 export function CandidateResult({ candidate }: { candidate: Candidate }) {
   const t = useTranslations();
   return (
@@ -21,7 +21,7 @@ export function CandidateResult({ candidate }: { candidate: Candidate }) {
       <tbody>
         {SUBJECT_CODES.map((code) => {
           const score = candidate.scores[code];
-          // Show the code N1..N7 only next to a score; never a language name (GS-02-AC06, Q-04).
+          // Show the code N1..N7 only next to a score; never a language name (the code's meaning is not confirmed).
           const name =
             code === "ngoai_ngu" && score !== null && candidate.foreignLanguageCode
               ? t("lookup.foreignLanguageWithCode", { code: candidate.foreignLanguageCode })

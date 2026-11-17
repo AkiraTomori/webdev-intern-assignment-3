@@ -2,7 +2,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 import path from "node:path";
 import type { NextConfig } from "next";
 
-// The only place BACKEND_URL is read (codebase §3). Never echo the value.
+// The only place BACKEND_URL is read. Never echo the value.
 const DEFAULT_BACKEND_URL = "http://127.0.0.1:4000";
 
 function backendUrl(): string {
@@ -20,7 +20,7 @@ function backendUrl(): string {
 }
 
 const nextConfig: NextConfig = {
-  // Docker image (design N2b): `next build` also emits a self-contained server in .next/standalone.
+  // Docker image: `next build` also emits a self-contained server in .next/standalone.
   output: "standalone",
   // node_modules is hoisted to the repo root, so trace from there; server.js lands in standalone/frontend/.
   outputFileTracingRoot: path.join(import.meta.dirname, ".."),

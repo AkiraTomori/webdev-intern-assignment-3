@@ -12,11 +12,11 @@ describe("ScoreLevel", () => {
     ["4", "gte4"],
     ["3.99", "lt4"],
     ["0", "lt4"],
-  ])("GS-03-AC01: score %s falls in level %s", (raw, key) => {
+  ])("score %s falls in level %s", (raw, key) => {
     expect(ScoreLevel.of(s(raw)).key).toBe(key);
   });
 
-  it("GS-03-AC01: all() has 4 levels with key/label exactly as api.md §4, highest first", () => {
+  it("all() has 4 levels with the key and label the API returns, highest first", () => {
     expect(ScoreLevel.all.map((l) => ({ key: l.key, label: l.label }))).toEqual([
       { key: "gte8", label: "≥ 8" },
       { key: "gte6", label: "6 ≤ x < 8" },
@@ -25,7 +25,7 @@ describe("ScoreLevel", () => {
     ]);
   });
 
-  it("GS-03-AC01: the 4 intervals are half-open, adjacent, non-overlapping and cover everything", () => {
+  it("the 4 intervals are half-open, adjacent, non-overlapping and cover everything", () => {
     const levels = ScoreLevel.all;
     expect(levels[0]!.max).toBeNull();
     expect(levels[levels.length - 1]!.min).toBeNull();

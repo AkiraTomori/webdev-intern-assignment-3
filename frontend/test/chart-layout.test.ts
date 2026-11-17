@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { barsChartHeight, CHART_BARS_BELOW, chartLayout } from "../lib/chart-layout";
 
-describe("chartLayout (design N1 §N1.4)", () => {
+describe("chartLayout", () => {
   it.each([
     [undefined, "columns"],
     [CHART_BARS_BELOW - 1, "bars"],

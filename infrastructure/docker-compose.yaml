@@ -40,7 +40,7 @@ services:
       timeout: 3s
       retries: 10
 
-  # One-shot: apply migrations, then seed. Seeding is a no-op once the table is full (GS-01-AC05).
+  # One-shot: apply migrations, then seed. Seeding is a no-op once the table is full.
   # Never pass --fresh here: it deletes data.
   seed:
     profiles: [app]
@@ -50,7 +50,7 @@ services:
     image: g-scores-tools
     environment: *app-env
     volumes:
-      # Read-only: the dataset cannot be modified from the container (GS-01-AC07).
+      # Read-only: the dataset cannot be modified from the container.
       - ../dataset:/app/dataset:ro
     depends_on:
       postgres:

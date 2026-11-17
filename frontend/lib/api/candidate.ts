@@ -8,7 +8,7 @@ export type Candidate = {
   foreignLanguageCode: string | null;
 };
 
-/** Accepts the api.md §3 shape and nothing else. Returns null for anything that is not safe to draw. */
+/** Accepts the candidate response shape and nothing else. Returns null for anything that is not safe to draw. */
 export function parseCandidateResponse(data: unknown): Candidate | null {
   if (!isRecord(data) || !isSbd(data.sbd) || !isRecord(data.scores)) return null;
   if (!hasExactKeys(data.scores, SUBJECT_CODES)) return null;

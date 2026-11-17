@@ -1,4 +1,4 @@
-/** Below this frame width (CSS px) the chart draws horizontal bars instead of columns (design N1 §N1.4). */
+/** Below this frame width (CSS px) the chart draws horizontal bars instead of columns. */
 export const CHART_BARS_BELOW = 560;
 
 export type ChartLayout = "columns" | "bars";

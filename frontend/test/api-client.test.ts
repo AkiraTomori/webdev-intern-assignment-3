@@ -10,8 +10,8 @@ const json = (body: unknown, status = 200) => Promise.resolve(new Response(JSON.
 
 afterEach(() => vi.unstubAllGlobals());
 
-describe("toErrorKey (F0 §7.0)", () => {
-  it("returns the code for each of the five api.md §1 codes", () => {
+describe("toErrorKey", () => {
+  it("returns the code for each of the five backend error codes", () => {
     for (const code of ["INVALID_SBD", "CANDIDATE_NOT_FOUND", "INVALID_PARAMETER", "NOT_FOUND", "INTERNAL_ERROR"]) {
       expect(toErrorKey({ error: { code, message: "ignored" } })).toBe(code);
     }
@@ -30,7 +30,7 @@ describe("toErrorKey (F0 §7.0)", () => {
   });
 });
 
-describe("getJson (F0 §7.0)", () => {
+describe("getJson", () => {
   it("returns the parsed data on 200", async () => {
     stubFetch(() => json({ data: 7 }));
     expect(await getJson("/api/x", parse)).toEqual({ ok: true, data: 7 });
@@ -46,7 +46,7 @@ describe("getJson (F0 §7.0)", () => {
     expect(await getJson("/api/x", parse)).toEqual({ ok: false, error: "network" });
   });
 
-  it("returns the code of an api.md §1 error body", async () => {
+  it("returns the code of a backend error body", async () => {
     stubFetch(() => json({ error: { code: "CANDIDATE_NOT_FOUND", message: "m" } }, 404));
     expect(await getJson("/api/x", parse)).toEqual({ ok: false, error: "CANDIDATE_NOT_FOUND" });
   });

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { formatScore } from "../lib/format-score";
 
-describe("formatScore (F0-AC09, GS-09-AC03)", () => {
+describe("formatScore", () => {
   it("uses a decimal point", () => {
     expect(formatScore(8.4)).toBe("8.4");
     expect(formatScore(28.6)).toBe("28.6");

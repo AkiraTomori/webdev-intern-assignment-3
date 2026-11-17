@@ -2,8 +2,8 @@ import { Prisma } from "../generated/prisma/client";
 import type { PrismaClient } from "../generated/prisma/client";
 import { Score, ScoreLevel, subjects, type ScoreLevelKey, type SubjectCode, type SubjectGroup } from "../domain";
 
-// Raw SQL lives here only (codebase.md). Column identifiers come from the registry (CODE_PATTERN-checked,
-// DB1 §3.2); thresholds and `limit` are bind parameters. Nothing from the request becomes an identifier.
+// Raw SQL lives here only. Column identifiers come from the registry (CODE_PATTERN-checked);
+// thresholds and `limit` are bind parameters. Nothing from the request becomes an identifier.
 
 const ident = (code: string): Prisma.Sql => Prisma.raw(`"${code}"`);
 
@@ -24,7 +24,7 @@ function levelCondition(column: Prisma.Sql, level: ScoreLevel): Prisma.Sql {
 
 /**
  * One scan of the table, one row back: per subject, `total` (non-NULL scores) and one count per level.
- * NULL (did not sit the subject) matches no condition and is skipped by count(col): it is never a 0 (GS-03-AC02).
+ * NULL (did not sit the subject) matches no condition and is skipped by count(col): it is never a 0.
  * Every level, including lt4, is counted for real so the Σ = total invariant can be checked independently.
  */
 export async function countScoreLevels(prisma: PrismaClient): Promise<readonly SubjectLevelCounts[]> {
@@ -58,8 +58,8 @@ export interface RankedCandidate<C extends string> {
 
 /**
  * Candidates who sat every subject of `group` (a real 0 counts, NULL does not), highest exact total first,
- * ties by SBD ascending (string compare, Q-02 a). `(total, sbd)` is unique because sbd is the primary key.
- * Sorting happens in PostgreSQL: pulling the rows into JS would break P5.
+ * ties by SBD ascending (string compare). `(total, sbd)` is unique because sbd is the primary key.
+ * Sorting happens in PostgreSQL: pulling a million rows into JS to sort them would be far too slow.
  */
 export async function findTopOfGroup<C extends SubjectCode>(
   prisma: PrismaClient,
@@ -78,7 +78,7 @@ export async function findTopOfGroup<C extends SubjectCode>(
   // NUMERIC may come back as Prisma.Decimal or a string depending on the driver; String() handles both.
   const toScore = (value: unknown, what: string): Score => {
     const parsed = Score.parse(String(value));
-    // DB1's CHECK constraints make this unreachable; if it happens it is corrupt data, not a client error.
+    // The table's CHECK constraints make this unreachable; if it happens it is corrupt data, not a client error.
     if (!parsed.ok) throw new Error(`Stored ${what} is not a valid score (${parsed.reason})`);
     return parsed.score;
   };

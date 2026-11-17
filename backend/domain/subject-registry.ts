@@ -5,7 +5,7 @@ const CODE_PATTERN = /^[a-z_]+$/;
 /**
  * The one list of subjects. Seeder, lookup, report and top 10 all take their
  * subjects and column names from here. `has()` is the whitelist for column
- * identifiers in raw SQL (DB1 §3.2): SQL never gets a column name from user input.
+ * identifiers in raw SQL: SQL never gets a column name from user input.
  */
 export class SubjectRegistry<C extends string> {
   private readonly byCode: ReadonlyMap<string, Subject<C>>;

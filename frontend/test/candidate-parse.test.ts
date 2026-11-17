@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { parseCandidateResponse } from "../lib/api/candidate";
 
-// The api.md §3 example, first row of the CSV.
+// A sample candidate: the first row of the CSV.
 const valid = () => ({
   sbd: "01000001",
   scores: { toan: 8.4, ngu_van: 6.75, ngoai_ngu: 8.0, vat_li: 6.0, hoa_hoc: 5.25, sinh_hoc: 5.0, lich_su: null, dia_li: null, gdcd: null },
@@ -9,7 +9,7 @@ const valid = () => ({
 });
 
 describe("parseCandidateResponse", () => {
-  it("accepts the api.md §3 example and keeps null as null, not 0 (GS-02-AC01, AC02)", () => {
+  it("accepts a sample candidate and keeps null as null, not 0", () => {
     const candidate = parseCandidateResponse(valid());
     expect(candidate?.sbd).toBe("01000001");
     expect(candidate?.scores.toan).toBe(8.4);
@@ -17,11 +17,11 @@ describe("parseCandidateResponse", () => {
     expect(candidate?.foreignLanguageCode).toBe("N1");
   });
 
-  it("keeps the leading zero of the SBD (GS-02-AC05)", () => {
+  it("keeps the leading zero of the SBD", () => {
     expect(parseCandidateResponse(valid())?.sbd).toBe("01000001");
   });
 
-  it("accepts a candidate with no foreign language: code null (GS-02-AC06)", () => {
+  it("accepts a candidate with no foreign language: code null", () => {
     expect(parseCandidateResponse({ ...valid(), foreignLanguageCode: null })).not.toBeNull();
   });
 

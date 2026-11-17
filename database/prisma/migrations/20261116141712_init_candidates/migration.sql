@@ -18,7 +18,7 @@ CREATE TABLE "candidates" (
 -- Hand-written: Prisma schema cannot express CHECK constraints.
 -- NULL passes every CHECK below, so a blank score (NULL) is allowed while a real 0.00 is a valid score.
 
--- SBD is exactly 8 digits (leading zeros kept; GS-01-AC04, Q-03).
+-- SBD is exactly 8 digits (leading zeros kept).
 ALTER TABLE "candidates"
     ADD CONSTRAINT "candidates_sbd_format_chk" CHECK ("sbd" ~ '^[0-9]{8}$');
 
@@ -35,7 +35,7 @@ ALTER TABLE "candidates"
     ADD CONSTRAINT "candidates_gdcd_range_chk"      CHECK ("gdcd"      >= 0 AND "gdcd"      <= 10);
 
 -- The foreign-language exam code exists if and only if the foreign-language score exists.
--- The code values (N1..N7) are deliberately not listed: their meaning is unconfirmed (Q-04).
+-- The code values (N1..N7) are deliberately not listed: only the pairing with the score is enforced.
 ALTER TABLE "candidates"
     ADD CONSTRAINT "candidates_ngoai_ngu_code_pair_chk"
     CHECK (("ngoai_ngu" IS NULL) = ("ma_ngoai_ngu" IS NULL));

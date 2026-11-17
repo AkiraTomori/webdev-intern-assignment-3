@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { GROUP_A, ScoreLevel, subjects, type ScoreLevelKey, type SubjectCode } from "../domain";
 
-/** Default and bounds of `?limit=` for the top list (api.md §5, GS-04-AC07). Declared once. */
+/** Default and bounds of `?limit=` for the top list. Declared once. */
 export const DEFAULT_TOP_LIMIT = 10;
 export const MIN_TOP_LIMIT = 1;
 export const MAX_TOP_LIMIT = 20;
@@ -20,7 +20,7 @@ export const topGroupAQuerySchema = z.object({
     .optional(),
 });
 
-// Keys come from the domain (ScoreLevel.all, registry, GROUP_A), never typed by hand (GS-05-AC01, AC03).
+// Keys come from the domain (ScoreLevel.all, registry, GROUP_A), never typed by hand.
 const countsShape = Object.fromEntries(
   ScoreLevel.all.map((level) => [level.key, z.number().int().min(0)]),
 ) as Record<ScoreLevelKey, z.ZodNumber>;

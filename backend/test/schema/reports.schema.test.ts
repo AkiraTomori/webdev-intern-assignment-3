@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_TOP_LIMIT, topGroupAQuerySchema } from "../../schema/report";
 
-describe("topGroupAQuerySchema (GS-04-AC07, GS-05-AC04)", () => {
+describe("topGroupAQuerySchema", () => {
   it("accepts a missing limit; the default is applied by the controller", () => {
     expect(topGroupAQuerySchema.parse({})).toEqual({});
     expect(DEFAULT_TOP_LIMIT).toBe(10);

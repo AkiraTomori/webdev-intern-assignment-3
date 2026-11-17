@@ -37,7 +37,7 @@ export function checkHeader(fields: readonly string[]): { ok: true } | { ok: fal
 
 /** `lineNo` is the 1-based line in the file (header is line 1). */
 export function parseCandidateRow(fields: readonly string[], lineNo: number): RowParseResult {
-  // Plain split(",") is only correct without quoted cells, so refuse them rather than misread (design §3.2).
+  // Plain split(",") is only correct without quoted cells, so refuse them rather than misread.
   if (fields.some((field) => field.includes('"'))) return { ok: false, issues: [{ lineNo, reason: "QUOTED_FIELD" }] };
   if (fields.length !== EXPECTED_HEADER.length) return { ok: false, issues: [{ lineNo, reason: "COLUMN_COUNT" }] };
 

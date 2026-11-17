@@ -4,7 +4,7 @@ import type { SubjectLevelCounts } from "../model/report-model";
 import { DEFAULT_TOP_LIMIT, topGroupAQuerySchema, type ScoreLevelsDto, type TopGroupARowDto } from "../schema/report";
 import type { ReportService, TopGroupAEntry } from "../service/report-service";
 
-/** Walks ScoreLevel.all and the registry in order: no level or subject key is typed here (GS-05-AC01). */
+/** Walks ScoreLevel.all and the registry in order: no level or subject key is typed here. */
 export function toScoreLevelsDto(result: readonly SubjectLevelCounts[]): ScoreLevelsDto {
   const byCode = new Map(result.map((item) => [item.code, item]));
   return {

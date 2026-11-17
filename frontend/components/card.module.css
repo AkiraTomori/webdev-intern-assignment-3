@@ -37,7 +37,7 @@
   font-weight: 600;
 }
 
-/* A table can be wider than a 360px screen: scroll inside the frame, never the page (GS-06). */
+/* A table can be wider than a 360px screen: scroll inside the frame, never the page. */
 .scroll {
   overflow-x: auto;
 }

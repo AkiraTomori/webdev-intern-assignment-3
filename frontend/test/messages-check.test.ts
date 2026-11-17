@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { diffKeys, emptyOrNonString, findDuplicateKeys, paramMismatches, paramsOf } from "./messages-check";
 
-// F0-AC07: the checkers must be able to fail. These run on small fixtures.
-describe("message checkers fail on bad input (F0-AC07)", () => {
+// The checkers must be able to fail. These run on small fixtures.
+describe("message checkers fail on bad input", () => {
   const vi = { a: { b: "x", c: "y {n}" }, d: "z" };
 
   it("reports a key missing from the other file", () => {

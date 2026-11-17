@@ -5,7 +5,7 @@ export const notFoundHandler: RequestHandler = (_req, _res, next) => {
   next(new AppError(404, "NOT_FOUND", "Route not found"));
 };
 
-/** Every failure leaves as JSON in the api.md §1 shape. Never the stack, never the connection string. */
+/** Every failure leaves as JSON in the standard error shape (`{ error: { code, message } }`). Never the stack, never the connection string. */
 export const errorHandler: ErrorRequestHandler = (error, _req, res, next) => {
   if (res.headersSent) return next(error);
   if (error instanceof AppError) {

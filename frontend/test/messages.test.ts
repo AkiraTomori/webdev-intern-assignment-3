@@ -11,7 +11,7 @@ const vi = JSON.parse(viText) as Json;
 const en = JSON.parse(enText) as Json;
 const viObject = vi as Record<string, Record<string, unknown>>;
 
-/** The error codes of api.md §1, read from the one place the backend defines them. */
+/** The backend error codes, read from the one place the backend defines them. */
 function backendErrorCodes(): string[] {
   const source = read("../../backend/util/app-error.ts");
   const union = /type ErrorCode\s*=\s*([^;]+);/.exec(source)?.[1] ?? "";
@@ -19,33 +19,33 @@ function backendErrorCodes(): string[] {
 }
 
 describe("message files", () => {
-  it("en has exactly the keys of vi (F0-AC07, GS-09-AC02)", () => {
+  it("en has exactly the keys of vi", () => {
     expect(diffKeys(vi, en)).toEqual({ missing: [], extra: [] });
   });
 
-  it("every value is a non-empty string (GS-09-AC02)", () => {
+  it("every value is a non-empty string", () => {
     expect(emptyOrNonString(vi)).toEqual([]);
     expect(emptyOrNonString(en)).toEqual([]);
   });
 
-  it("vi and en use the same {x} parameters (GS-09-AC02)", () => {
+  it("vi and en use the same {x} parameters", () => {
     expect(paramMismatches(vi, en)).toEqual([]);
   });
 
-  it("neither file has a duplicate key (F0-AC07)", () => {
+  it("neither file has a duplicate key", () => {
     expect(findDuplicateKeys(viText)).toEqual([]);
     expect(findDuplicateKeys(enText)).toEqual([]);
   });
 
-  it("has all 9 subjects, from the backend domain (F0-AC08, GS-09-AC02)", () => {
+  it("has all 9 subjects, from the backend domain", () => {
     expect(Object.keys(viObject.subject!).sort()).toEqual([...subjects.codes()].sort());
   });
 
-  it("has all 4 score levels, from the backend domain (F0-AC08)", () => {
+  it("has all 4 score levels, from the backend domain", () => {
     expect(Object.keys(viObject.level!).sort()).toEqual(ScoreLevel.all.map((level) => level.key).sort());
   });
 
-  it("has a message for every API error code, plus network (F0-AC08)", () => {
+  it("has a message for every API error code, plus network", () => {
     const codes = backendErrorCodes();
     expect(codes.sort()).toEqual(["CANDIDATE_NOT_FOUND", "INTERNAL_ERROR", "INVALID_PARAMETER", "INVALID_SBD", "NOT_FOUND"]);
     expect(Object.keys(viObject.error!).sort()).toEqual([...codes, "network"].sort());
@@ -58,7 +58,7 @@ describe("message files", () => {
     }
   });
 
-  it("covers every group the design lists", () => {
+  it("has exactly the expected top-level message groups", () => {
     expect(Object.keys(viObject).sort()).toEqual(["common", "error", "errorPage", "home", "level", "lookup", "notFound", "reports", "shell", "subject", "topGroupA"]);
     expect(leafKeys(vi).length).toBeGreaterThan(40);
   });

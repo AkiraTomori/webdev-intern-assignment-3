@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Frontend image, built from the repo root (see infrastructure/docker-compose.yaml). Targets:
 #   build  full install + `next build` (output: standalone); never shipped
-#   web    Next.js standalone server only (design N2b §3.3)
+#   web    Next.js standalone server only
 
 FROM node:26.6.0-bookworm-slim AS build
 WORKDIR /app
