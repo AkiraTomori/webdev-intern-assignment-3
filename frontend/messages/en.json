@@ -22,6 +22,10 @@
     },
     "footer": "G-Scores · 2024 national high school exam scores"
   },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again"
+  },
   "home": {
     "title": "G-Scores",
     "intro": "Look up and analyse the 2024 national high school exam scores.",
@@ -42,7 +46,16 @@
   },
   "lookup": {
     "title": "Score lookup",
-    "placeholder": "Score lookup will appear here."
+    "formTitle": "Look up by registration number",
+    "sbdLabel": "Registration number",
+    "sbdHint": "The number has exactly 8 digits, for example 01000001.",
+    "submit": "Look up",
+    "submitting": "Looking up…",
+    "resultTitle": "Result · Registration number {sbd}",
+    "subjectColumn": "Subject",
+    "scoreColumn": "Score",
+    "notTaken": "Not taken",
+    "foreignLanguageWithCode": "Foreign language ({code})"
   },
   "reports": {
     "title": "Reports",

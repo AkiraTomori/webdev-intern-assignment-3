@@ -59,7 +59,7 @@ describe("message files", () => {
   });
 
   it("covers every group the design lists", () => {
-    expect(Object.keys(viObject).sort()).toEqual(["error", "errorPage", "home", "level", "lookup", "notFound", "reports", "shell", "subject", "topGroupA"]);
+    expect(Object.keys(viObject).sort()).toEqual(["common", "error", "errorPage", "home", "level", "lookup", "notFound", "reports", "shell", "subject", "topGroupA"]);
     expect(leafKeys(vi).length).toBeGreaterThan(40);
   });
 });

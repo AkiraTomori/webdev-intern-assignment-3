@@ -22,6 +22,10 @@
     },
     "footer": "G-Scores · Dữ liệu điểm thi THPT 2024"
   },
+  "common": {
+    "loading": "Đang tải…",
+    "retry": "Thử lại"
+  },
   "home": {
     "title": "G-Scores",
     "intro": "Tra cứu và thống kê điểm thi THPT 2024.",
@@ -42,7 +46,16 @@
   },
   "lookup": {
     "title": "Tra cứu điểm",
-    "placeholder": "Chức năng tra cứu điểm sẽ có ở đây."
+    "formTitle": "Tra cứu theo số báo danh",
+    "sbdLabel": "Số báo danh",
+    "sbdHint": "SBD gồm đúng 8 chữ số, ví dụ 01000001.",
+    "submit": "Tra cứu",
+    "submitting": "Đang tra cứu…",
+    "resultTitle": "Kết quả · SBD {sbd}",
+    "subjectColumn": "Môn",
+    "scoreColumn": "Điểm",
+    "notTaken": "Không thi",
+    "foreignLanguageWithCode": "Ngoại ngữ ({code})"
   },
   "reports": {
     "title": "Báo cáo",

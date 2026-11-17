@@ -1,0 +1,47 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.table caption {
+  text-align: left;
+  color: var(--text-muted);
+  padding-bottom: 0.5rem;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.table .num {
+  text-align: right;
+}
+
+.table tbody th {
+  font-weight: 600;
+}
+
+/* A table can be wider than a 360px screen: scroll inside the frame, never the page (GS-06). */
+.scroll {
+  overflow-x: auto;
+}
+
+.empty {
+  color: var(--text-muted);
+}
