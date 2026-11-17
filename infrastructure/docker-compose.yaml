@@ -7,13 +7,16 @@
 #   ./docker-up.sh      (= docker compose -f infrastructure/docker-compose.yaml --profile app up -d --build)
 #   ./docker-down.sh    (stops the containers, keeps the data)
 #
+# Images: backend/Dockerfile (targets tools, api) and frontend/Dockerfile (target web), both built
+# from the repo root.
+#
 # Local-only: ports are bound to 127.0.0.1 and PostgreSQL uses trust auth (no password), so there
 # is no secret in this file. Do not reuse this setup on a public host.
 name: g-scores
 
-x-app-build: &app-build
+x-backend-build: &backend-build
   context: ..
-  dockerfile: infrastructure/docker/Dockerfile
+  dockerfile: backend/Dockerfile
 
 x-app-env: &app-env
   DATABASE_URL: postgresql://postgres@postgres:5432/g_scores
@@ -42,11 +45,10 @@ services:
   seed:
     profiles: [app]
     build:
-      <<: *app-build
-      target: api
-    image: g-scores-api
+      <<: *backend-build
+      target: tools
+    image: g-scores-tools
     environment: *app-env
-    command: ["sh", "-c", "npm run db:migrate -w backend && npm run db:seed -w backend"]
     volumes:
       # Read-only: the dataset cannot be modified from the container (GS-01-AC07).
       - ../dataset:/app/dataset:ro
@@ -58,7 +60,7 @@ services:
   api:
     profiles: [app]
     build:
-      <<: *app-build
+      <<: *backend-build
       target: api
     image: g-scores-api
     restart: unless-stopped
@@ -82,7 +84,8 @@ services:
   web:
     profiles: [app]
     build:
-      <<: *app-build
+      context: ..
+      dockerfile: frontend/Dockerfile
       target: web
       args:
         BACKEND_URL: http://api:4000

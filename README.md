@@ -4,7 +4,7 @@
 
 G-Scores là ứng dụng web tra cứu và thống kê điểm thi THPT 2024 từ `dataset/diem_thi_thpt_2024.csv` (1.061.605 thí sinh): tra điểm theo số báo danh, biểu đồ số thí sinh theo bốn mức điểm của từng môn, và top 10 thí sinh khối A.
 
-**Demo:** chưa có link demo công khai (phần deploy chưa làm). Xem [Chạy trên máy](#chạy-trên-máy) (khoảng 5 phút) và [ảnh chụp màn hình](#ảnh-chụp-màn-hình) bên dưới.
+**Demo:** chưa có link demo công khai. Xem [Chạy bằng Docker](#chạy-bằng-docker) (chỉ cần Docker) hoặc [Chạy trên máy](#chạy-trên-máy) (khoảng 5 phút) và [ảnh chụp màn hình](#ảnh-chụp-màn-hình) bên dưới.
 
 ### Ảnh chụp màn hình
 
@@ -24,10 +24,9 @@ G-Scores là ứng dụng web tra cứu và thống kê điểm thi THPT 2024 t�
 | Tra điểm theo số báo danh | ✅ | trang `/lookup` · `GET /api/candidates/:sbd` |
 | Báo cáo 4 mức điểm theo từng môn (biểu đồ) | ✅ | trang `/reports` · `GET /api/reports/score-levels` |
 | Top 10 thí sinh khối A (toán, vật lí, hoá học) | ✅ | trang `/top-group-a` · `GET /api/reports/top-group-a` |
-| Responsive | 🟡 dùng được ở 360 px, không cuộn ngang cả trang; chưa trau chuốt | `frontend/` |
-| Docker | 🟡 chỉ có PostgreSQL (`infrastructure/docker-compose.yaml`); backend và frontend chưa đóng gói | `infrastructure/` |
-| Deploy | ❌ chưa làm | — |
-| Thêm: tiếng Việt/Anh, giao diện sáng/tối/theo hệ thống | ✅ | hai ô chọn ở đầu trang |
+| Responsive | ✅ dùng được ở 360, 768 và 1280 px, không cuộn ngang trang; biểu đồ đổi sang cột ngang khi khung hẹp. Bảng số cuộn ngang **trong khung** ở 360 px | `frontend/` |
+| Docker | ✅ một lệnh dựng PostgreSQL, migrate, seed, API và web (`./docker-up.sh`). | `infrastructure/`, `docker-up.sh`, `docker-down.sh` |
+| Thêm: tiếng Việt/Anh, giao diện sáng/tối/theo hệ thống | ✅ Tự bổ sung | hai ô chọn ở đầu trang |
 
 **Yêu cầu kỹ thuật:**
 
@@ -44,6 +43,35 @@ G-Scores là ứng dụng web tra cứu và thống kê điểm thi THPT 2024 t�
 | Cơ sở dữ liệu | PostgreSQL 17 (Docker), Prisma 7 (schema, migration), seeder đọc CSV theo luồng và insert theo lô |
 | Frontend | Next.js 16 (App Router), React 19, TypeScript, next-intl (vi/en), next-themes, Recharts |
 | Kiểm thử | Vitest (backend và frontend), script đối chiếu độc lập bằng Python 3 |
+
+### Chạy bằng Docker
+
+Cách nhanh nhất: chỉ cần **Docker với Compose v2**, không cần Node, npm hay Python. Cổng trống: 3000 (web), 4000 (API), 5433 (PostgreSQL).
+
+```bash
+git clone <repo-url> && cd <repo>
+./docker-up.sh        # build image, dựng PostgreSQL, migrate, seed, API, web
+./docker-down.sh      # dừng và gỡ container, GIỮ dữ liệu
+```
+
+Mở http://localhost:3000. Lần đầu mất vài phút để tải và build image, rồi khoảng 35 giây để nạp 1.061.605 dòng; các lần sau seeder thấy đủ dữ liệu nên bỏ qua (khoảng 15 giây khi không đổi mã).
+
+Hai script chỉ là lối tắt (cần bash). Lệnh gốc, dùng được cả trên Windows:
+
+```bash
+docker compose -f infrastructure/docker-compose.yaml --profile app up -d --build
+docker compose -f infrastructure/docker-compose.yaml --profile app down
+```
+
+- **Chỉ bật PostgreSQL** (cho luồng dev ở mục dưới): lệnh `docker compose -f infrastructure/docker-compose.yaml up -d --wait`, không có `--profile app`.
+- `docker-down.sh` dừng **cả** PostgreSQL, nên `npm run dev` đang chạy sẽ mất kết nối CSDL. Dữ liệu vẫn còn trong volume; bật lại bằng một trong hai lệnh `up` ở trên.
+- **Xoá cả dữ liệu:** `docker compose -f infrastructure/docker-compose.yaml --profile app down -v` (không có script, vì là việc huỷ dữ liệu). Volume dùng chung với luồng dev.
+- **Nạp lại từ đầu** (xoá bảng rồi nạp lại): `docker compose -f infrastructure/docker-compose.yaml run --rm seed npm run db:seed -w backend -- --fresh`.
+- **Đổi cổng:** đặt biến môi trường, ví dụ `WEB_PORT=3001 API_PORT=4001 POSTGRES_PORT=5434 ./docker-up.sh`.
+- **Đổi mã nguồn:** chạy lại `./docker-up.sh` (có `--build`). Địa chỉ backend được ghi cứng vào image web lúc build.
+- **Kích thước image** (đo 17/11/2026 trên chip ARM): `g-scores-api` khoảng 395 MB, `g-scores-web` khoảng 330 MB (trước đây khoảng 2,1 và 2,2 GB), `g-scores-tools` khoảng 860 MB (chỉ chạy một lần để migrate và seed). Số này là dung lượng các lớp; `docker image ls` trên Docker Desktop báo cao hơn (516 MB, 423 MB, 1,18 GB).
+- **Không lên được:** xem `docker compose -f infrastructure/docker-compose.yaml --profile app logs seed` (nạp dữ liệu) hoặc `logs api`. Nếu seed lỗi thì API không khởi động. Báo lỗi "port is already allocated" là cổng đang bị chiếm (ví dụ `npm run dev` đang chạy): tắt nó hoặc đổi cổng.
+- Cấu hình này không có mật khẩu CSDL và chỉ mở cổng trên `127.0.0.1`: dùng cho máy local, không dùng trên host công khai.
 
 ### Chạy trên máy
 
@@ -69,7 +97,7 @@ Mở http://localhost:3000. Không cần tạo `frontend/.env.local`: frontend m
 - Báo cáo: tổng bốn mức của Toán là 1.045.613.
 - Top 10 khối A: hạng 1 là `26020938` (29,6 điểm).
 
-**Dừng:** `docker compose -f infrastructure/docker-compose.yaml down` (giữ dữ liệu); thêm `-v` để xoá cả dữ liệu.
+**Dừng:** `docker compose -f infrastructure/docker-compose.yaml down` (giữ dữ liệu); thêm `-v` để xoá cả dữ liệu. Lệnh này chỉ dừng PostgreSQL. Nếu bạn đã bật cả ứng dụng bằng `./docker-up.sh` ở mục "Chạy bằng Docker", hãy dừng bằng `./docker-down.sh` (hoặc thêm `--profile app` vào lệnh trên) để các container `api`, `web`, `seed` không bị bỏ sót.
 
 **Chạy bản build (tuỳ chọn):**
 
@@ -122,14 +150,10 @@ Mã thoát 0 là khớp. Kết quả chạy 17/11/2026 trên bản clone mới t
 | `frontend/` | Next.js: `app/` (trang), `components/`, `messages/` (vi/en), `lib/` |
 | `database/` | `prisma/` (schema, migration), `seed/` (seeder), `verify/` (đối chiếu độc lập) |
 | `dataset/` | CSV điểm thi của đề (chỉ đọc) |
-| `infrastructure/` | Docker Compose cho PostgreSQL |
+| `infrastructure/` | `docker-compose.yaml` (PostgreSQL; profile `app` thêm seed, API, web); Dockerfile nằm cạnh mã: `backend/Dockerfile` (target `tools`, `api`), `frontend/Dockerfile` (target `web`) |
+| gốc repo | `docker-up.sh`, `docker-down.sh`: bật/tắt cả ứng dụng bằng Docker |
 | `scripts/` | `dev.mjs`: chạy API và web cùng lúc |
 
-### Xử lý sự cố
-
-- **Cổng bị chiếm** (5433, 4000, 3000): tắt tiến trình đang dùng cổng đó. Với PostgreSQL có thể đặt `POSTGRES_PORT=5434` khi chạy `docker compose` rồi sửa cổng trong `DATABASE_URL` và `DATABASE_URL_TEST` ở `.env`.
-- **Backend báo `Cannot find module …/backend/generated/prisma/client`:** chưa sinh Prisma Client; chạy `npm run db:generate -w backend`.
-- **Seed lần hai:** nếu bảng đã đủ dòng thì seeder báo "Bảng đã đủ … thí sinh, không làm gì". Nạp lại từ đầu: `npm run db:seed -w backend -- --fresh` (**xoá** dữ liệu hiện có).
 - **Đổi `BACKEND_URL`:** phải `npm run build -w frontend` lại.
 - **Trang báo cáo báo "chưa có dữ liệu":** chưa chạy `db:seed`.
 
