@@ -6,19 +6,19 @@ import { SubjectGroup } from "../../domain/subject-group";
 import { s } from "./helpers";
 
 describe("SubjectRegistry", () => {
-  it("GS-05-AC01 / GS-03-AC05: codes() are exactly the 9 subjects in CSV and api.md order", () => {
+  it("codes() are exactly the 9 subjects in CSV and API order", () => {
     expect(subjects.codes()).toEqual([
       "toan", "ngu_van", "ngoai_ngu", "vat_li", "hoa_hoc", "sinh_hoc", "lich_su", "dia_li", "gdcd",
     ]);
     expect(subjects.all().map((x) => x.code)).toEqual(subjects.codes());
   });
 
-  it("GS-05-AC01: ngoai_ngu is the one subject with related-column rules", () => {
+  it("ngoai_ngu is the one subject with related-column rules", () => {
     expect(subjects.get("ngoai_ngu").validateRelated(s("8"), {})).toEqual(["SCORE_WITHOUT_EXAM_CODE"]);
     expect(subjects.get("toan").validateRelated(s("8"), {})).toEqual([]);
   });
 
-  it("GS-05-AC01: building a registry with two subjects of the same code throws", () => {
+  it("building a registry with two subjects of the same code throws", () => {
     expect(() => new SubjectRegistry([new Subject("toan", "A"), new Subject("toan", "B")])).toThrow(/duplicate/i);
   });
 
@@ -31,7 +31,7 @@ describe("SubjectRegistry", () => {
   });
 
   it.each(["toan; DROP TABLE", "TOAN", "", "constructor", "__proto__", "toString"])(
-    "DB1 §3.2: has(%j) is false, so it can never become a SQL column name",
+    "has(%j) is false, so it can never become a SQL column name",
     (code) => {
       expect(subjects.has(code)).toBe(false);
     },
@@ -57,12 +57,12 @@ describe("SubjectRegistry", () => {
 });
 
 describe("SubjectGroup / GROUP_A", () => {
-  it("GS-05-AC03: GROUP_A is built from the registry, its codes are toan, vat_li, hoa_hoc", () => {
+  it("GROUP_A is built from the registry, its codes are toan, vat_li, hoa_hoc", () => {
     expect(GROUP_A.codes()).toEqual(["toan", "vat_li", "hoa_hoc"]);
     expect(GROUP_A.subjects[0]).toBe(subjects.get("toan"));
   });
 
-  it("GS-05-AC03: a group built from an unknown code throws instead of silently shrinking", () => {
+  it("a group built from an unknown code throws instead of silently shrinking", () => {
     expect(() => SubjectGroup.fromCodes("X", subjects, ["toan", "toan_hoc"])).toThrow(/unknown subject/i);
   });
 
@@ -71,13 +71,13 @@ describe("SubjectGroup / GROUP_A", () => {
     expect(() => SubjectGroup.fromCodes("X", subjects, ["toan", "toan"])).toThrow(/duplicate/i);
   });
 
-  it("GS-04-AC04: the total of 9.1 + 9.2 + 9.3 is exactly 27.6", () => {
+  it("the total of 9.1 + 9.2 + 9.3 is exactly 27.6", () => {
     const total = GROUP_A.totalOf({ toan: s("9.1"), vat_li: s("9.2"), hoa_hoc: s("9.3") });
     expect(total?.toString()).toBe("27.6");
     expect(total?.toNumber()).toBe(27.6);
   });
 
-  it("GS-04-AC04: the spec's own example, 9.6 + 9.5 + 9.5, is exactly 28.6", () => {
+  it("the total of 9.6 + 9.5 + 9.5 is exactly 28.6", () => {
     const total = GROUP_A.totalOf({ toan: s("9.6"), vat_li: s("9.5"), hoa_hoc: s("9.5") });
     expect(total?.toString()).toBe("28.6");
     expect(total?.toNumber()).toBe(28.6);
@@ -86,12 +86,12 @@ describe("SubjectGroup / GROUP_A", () => {
   it.each([
     ["hoa_hoc is null", { toan: s("9.9"), vat_li: s("9.9"), hoa_hoc: null }],
     ["hoa_hoc is missing", { toan: s("9.9"), vat_li: s("9.9") }],
-  ])("GS-04-AC02: incomplete when %s, so no total", (_label, scores) => {
+  ])("incomplete when %s, so no total", (_label, scores) => {
     expect(GROUP_A.isComplete(scores)).toBe(false);
     expect(GROUP_A.totalOf(scores)).toBeNull();
   });
 
-  it("GS-04-AC02 / P1: a real 0 counts as present", () => {
+  it("a real 0 counts as present", () => {
     const scores = { toan: s("9.9"), vat_li: s("9.9"), hoa_hoc: s("0") };
     expect(GROUP_A.isComplete(scores)).toBe(true);
     expect(GROUP_A.totalOf(scores)?.toString()).toBe("19.8");

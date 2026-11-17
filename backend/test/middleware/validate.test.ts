@@ -5,7 +5,7 @@ import { z } from "zod";
 import { validateParams, validateQuery } from "../../middleware/validate";
 import { AppError } from "../../util/app-error";
 
-// GS-05-AC04: an invalid SBD is rejected before any controller or service runs.
+// An invalid SBD is rejected before any controller or service runs.
 describe("validateParams", () => {
   const run = (sbd: string) => {
     const next = vi.fn();

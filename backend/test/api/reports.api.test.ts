@@ -45,7 +45,7 @@ const sbdOf = (i: number) => String(i).padStart(8, "0");
 describe("GET /api/reports/score-levels", () => {
   const BOUNDARY = ["10", "8", "7.99", "6", "5.99", "4", "3.99", "0"];
 
-  it("GS-03-AC01 puts 8.0, 6.0 and 4.0 in the higher level (half-open intervals)", async () => {
+  it("puts 8.0, 6.0 and 4.0 in the higher level (half-open intervals)", async () => {
     await seed(BOUNDARY.map((toan, i) => candidate(sbdOf(i + 1), { toan })));
     const { res, body } = await get("/api/reports/score-levels");
     expect(res.status).toBe(200);
@@ -53,7 +53,7 @@ describe("GET /api/reports/score-levels", () => {
     expect(toan).toMatchObject({ total: 8, counts: { gte8: 2, gte6: 2, gte4: 2, lt4: 2 } });
   });
 
-  it("GS-03-AC02 never counts a subject that was not sat (not as 0, not in lt4)", async () => {
+  it("never counts a subject that was not sat (not as 0, not in lt4)", async () => {
     await seed([
       ...BOUNDARY.map((toan, i) => candidate(sbdOf(i + 1), { toan })),
       candidate("00000101", { ngu_van: "5" }),
@@ -69,14 +69,14 @@ describe("GET /api/reports/score-levels", () => {
     }
   });
 
-  it("GS-03-AC02 keeps a subject nobody sat, with total 0", async () => {
+  it("keeps a subject nobody sat, with total 0", async () => {
     await seed([candidate("00000001", { toan: "5" })]);
     const { body } = await get("/api/reports/score-levels");
     const gdcd = body.data.subjects.find((s: any) => s.code === "gdcd");
     expect(gdcd).toEqual({ code: "gdcd", name: "GDCD", total: 0, counts: { gte8: 0, gte6: 0, gte4: 0, lt4: 0 } });
   });
 
-  it("GS-03-AC05 returns all 9 subjects in registry order, ngoai_ngu merging every language code", async () => {
+  it("returns all 9 subjects in registry order, ngoai_ngu merging every language code", async () => {
     await seed([
       candidate("00000001", { ngoai_ngu: "9" }, "N1"),
       candidate("00000002", { ngoai_ngu: "3" }, "N4"),
@@ -94,7 +94,7 @@ describe("GET /api/reports/score-levels", () => {
     });
   });
 
-  it("GS-03-AC01 returns 200 with all zeros when the table is empty", async () => {
+  it("returns 200 with all zeros when the table is empty", async () => {
     const { res, body } = await get("/api/reports/score-levels");
     expect(res.status).toBe(200);
     const data = scoreLevelsResponseSchema.parse(body).data;
@@ -122,7 +122,7 @@ describe("GET /api/reports/score-levels", () => {
 describe("GET /api/reports/top-group-a", () => {
   const trio = (toan: string, vat_li: string, hoa_hoc: string) => ({ toan, vat_li, hoa_hoc });
 
-  it("GS-04-AC04 sums exactly: 9.6 + 9.5 + 9.5 = 28.6", async () => {
+  it("sums exactly: 9.6 + 9.5 + 9.5 = 28.6", async () => {
     await seed([candidate("00000001", trio("9.6", "9.5", "9.5"))]);
     const { res, body } = await get("/api/reports/top-group-a");
     expect(res.status).toBe(200);
@@ -132,7 +132,7 @@ describe("GET /api/reports/top-group-a", () => {
     expect(body.data[0].total).toBe(28.6);
   });
 
-  it("GS-04-AC02 excludes anyone missing a group subject but keeps a real 0, 0, 0", async () => {
+  it("excludes anyone missing a group subject but keeps a real 0, 0, 0", async () => {
     await seed([
       candidate("00000001", { toan: "10", vat_li: "10" }),
       candidate("00000002", trio("0", "0", "0")),
@@ -141,7 +141,7 @@ describe("GET /api/reports/top-group-a", () => {
     expect(body.data).toEqual([{ rank: 1, sbd: "00000002", toan: 0, vat_li: 0, hoa_hoc: 0, total: 0 }]);
   });
 
-  it("GS-04-AC05 breaks ties by SBD ascending as strings, with ranks 1, 2, 3", async () => {
+  it("breaks ties by SBD ascending as strings, with ranks 1, 2, 3", async () => {
     await seed([
       candidate("10000001", trio("9", "9", "9")),
       candidate("01000002", trio("9", "9", "9")),
@@ -155,7 +155,7 @@ describe("GET /api/reports/top-group-a", () => {
     ]);
   });
 
-  it("GS-04-AC05 cuts a tie at exactly `limit` rows and is deterministic", async () => {
+  it("cuts a tie at exactly `limit` rows and is deterministic", async () => {
     await seed([
       candidate("00000001", trio("10", "10", "10")),
       candidate("00000009", trio("9", "9", "9")),
@@ -168,7 +168,7 @@ describe("GET /api/reports/top-group-a", () => {
     expect(second.body).toEqual(first.body);
   });
 
-  it("GS-04-AC01 defaults to 10 rows, highest total first, ranks 1…10", async () => {
+  it("defaults to 10 rows, highest total first, ranks 1…10", async () => {
     await seed(Array.from({ length: 12 }, (_, i) => candidate(sbdOf(i + 1), trio(String(i % 10), "5", "5"))));
     const { body } = await get("/api/reports/top-group-a");
     const data = topGroupAResponseSchema.parse(body).data;
@@ -182,14 +182,14 @@ describe("GET /api/reports/top-group-a", () => {
     ["limit=3", 3],
     ["limit=20", 12],
     ["limit=05", 5],
-  ])("GS-04-AC01 honours ?%s", async (query, expected) => {
+  ])("honours ?%s", async (query, expected) => {
     await seed(Array.from({ length: 12 }, (_, i) => candidate(sbdOf(i + 1), trio("5", "5", String(i % 10)))));
     const { res, body } = await get(`/api/reports/top-group-a?${query}`);
     expect(res.status).toBe(200);
     expect(body.data).toHaveLength(expected);
   });
 
-  it("GS-04-AC03 each row has rank, sbd, the group's three scores and total, sbd always 8 chars", async () => {
+  it("each row has rank, sbd, the group's three scores and total, sbd always 8 chars", async () => {
     await seed([candidate("00000042", trio("7.25", "8.5", "6"))]);
     const { body } = await get("/api/reports/top-group-a");
     expect(Object.keys(body.data[0])).toEqual(["rank", "sbd", ...GROUP_A.codes(), "total"]);
@@ -198,7 +198,7 @@ describe("GET /api/reports/top-group-a", () => {
   });
 
   it.each(["0", "21", "-1", "1.5", "abc", "", "1e1", "%205", "100", "1&limit=2"])(
-    "GS-04-AC07 rejects ?limit=%s with 400 INVALID_PARAMETER",
+    "rejects ?limit=%s with 400 INVALID_PARAMETER",
     async (value) => {
       const { res, body } = await get(`/api/reports/top-group-a?limit=${value}`);
       expect(res.status).toBe(400);
@@ -206,7 +206,7 @@ describe("GET /api/reports/top-group-a", () => {
     },
   );
 
-  it("GS-04-AC01 returns 200 with an empty list when nobody sat all three subjects", async () => {
+  it("returns 200 with an empty list when nobody sat all three subjects", async () => {
     expect((await get("/api/reports/top-group-a")).body).toEqual({ data: [] });
     await seed([candidate("00000001", { toan: "10", vat_li: "10" })]);
     expect((await get("/api/reports/top-group-a")).body).toEqual({ data: [] });

@@ -10,7 +10,7 @@ import { useElementWidth } from "@/lib/use-element-width";
 import styles from "./reports-view.module.css";
 
 // Recharts paints light defaults (white tooltip, grey axes). Every colour below is a CSS variable,
-// so a theme change recolours the SVG without redrawing it (design F1-F3 §4.2).
+// so a theme change recolours the SVG without redrawing it.
 const AXIS = { stroke: "var(--chart-axis)", tick: { fill: "var(--chart-axis)" } };
 
 export function ScoreLevelChart({ report }: { report: ScoreLevelsReport }) {

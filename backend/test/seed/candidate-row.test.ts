@@ -12,7 +12,7 @@ function reasons(line: string): string[] {
 }
 
 describe("parseCandidateRow", () => {
-  it("GS-01-AC03/AC04: keeps the leading zero of the SBD and turns empty cells into null", () => {
+  it("keeps the leading zero of the SBD and turns empty cells into null", () => {
     const result = parseCandidateRow(fieldsOf("01000001,8.4,6.75,8.0,6.0,5.25,5.0,,,,N1"), 2);
     if (!result.ok) throw new Error(JSON.stringify(result.issues));
     expect(result.row.sbd).toBe("01000001");
@@ -24,7 +24,7 @@ describe("parseCandidateRow", () => {
     expect(result.row.maNgoaiNgu).toBe("N1");
   });
 
-  it("GS-01-AC03: a real 0 is a score, not null", () => {
+  it("a real 0 is a score, not null", () => {
     const result = parseCandidateRow(fieldsOf("01000003,0,5,,,,,,,,"), 2);
     if (!result.ok) throw new Error(JSON.stringify(result.issues));
     expect(result.row.scores.toan?.toString()).toBe("0");
@@ -32,7 +32,7 @@ describe("parseCandidateRow", () => {
     expect(result.row.maNgoaiNgu).toBeNull();
   });
 
-  it("GS-01-AC06: rejects an SBD that is not exactly 8 digits", () => {
+  it("rejects an SBD that is not exactly 8 digits", () => {
     expect(reasons("1000001,8.4,,,,,,,,,")).toEqual(["INVALID_SBD"]);
     expect(reasons("010000011,8.4,,,,,,,,,")).toEqual(["INVALID_SBD"]);
     expect(reasons("0100000A,8.4,,,,,,,,,")).toEqual(["INVALID_SBD"]);
@@ -42,26 +42,26 @@ describe("parseCandidateRow", () => {
     ["10.5", "OUT_OF_RANGE"],
     ["abc", "NOT_A_NUMBER"],
     ["8.255", "TOO_MANY_DECIMALS"],
-  ])("GS-01-AC06: rejects score %s with %s and names the subject", (raw, reason) => {
+  ])("rejects score %s with %s and names the subject", (raw, reason) => {
     expect(reasons(`01000001,${raw},,,,,,,,,`)).toEqual([`${reason}:toan`]);
   });
 
-  it("GS-01-AC06: a foreign-language score needs an exam code, and the reverse", () => {
+  it("a foreign-language score needs an exam code, and the reverse", () => {
     expect(reasons("01000001,,,8.0,,,,,,,")).toEqual(["SCORE_WITHOUT_EXAM_CODE:ngoai_ngu"]);
     expect(reasons("01000001,,,,,,,,,,N1")).toEqual(["EXAM_CODE_WITHOUT_SCORE:ngoai_ngu"]);
     expect(reasons("01000001,,,8.0,,,,,,,N10")).toEqual(["EXAM_CODE_TOO_LONG:ngoai_ngu"]);
   });
 
-  it("GS-01-AC06: reports every problem of a row, not only the first", () => {
+  it("reports every problem of a row, not only the first", () => {
     expect(reasons("1,abc,11,,,,,,,,")).toEqual(["INVALID_SBD", "NOT_A_NUMBER:toan", "OUT_OF_RANGE:ngu_van"]);
   });
 
-  it("GS-01-AC06: rejects a row without exactly 11 fields", () => {
+  it("rejects a row without exactly 11 fields", () => {
     expect(reasons("01000001,8.4,,,,,,,,")).toEqual(["COLUMN_COUNT"]);
     expect(reasons("01000001,8.4,,,,,,,,,N1,")).toEqual(["COLUMN_COUNT"]);
   });
 
-  it("GS-01-AC06: rejects a quoted field instead of misreading it", () => {
+  it("rejects a quoted field instead of misreading it", () => {
     expect(reasons('01000001,"8.4",,,,,,,,,')).toEqual(["QUOTED_FIELD"]);
   });
 

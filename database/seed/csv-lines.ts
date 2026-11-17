@@ -9,7 +9,7 @@ export interface CsvLine {
 
 /**
  * Streams a file line by line; memory stays flat however large the file is.
- * Opened read-only (AC07). `for await` stops reading while the caller is busy (backpressure).
+ * Opened read-only, so the dataset is never modified. `for await` stops reading while the caller is busy (backpressure).
  * Blank lines at the end of the file are dropped; a blank line in the middle is yielded
  * so it is reported as a bad row instead of vanishing.
  */

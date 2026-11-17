@@ -15,7 +15,7 @@ type Options = {
   onValid: () => void;
 };
 
-/** JustValidate wrapped in a hook (design F1-F3 §3.3). It owns the format check of the SBD field. */
+/** JustValidate wrapped in a hook. It owns the format check of the SBD field. */
 export function useSbdValidation({ formRef, inputRef, errorsRef, message, onValid }: Options) {
   const onValidRef = useRef(onValid);
   useEffect(() => {

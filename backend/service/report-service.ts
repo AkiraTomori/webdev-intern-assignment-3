@@ -19,7 +19,7 @@ export class ReportService {
     return result;
   }
 
-  /** Top of group A. Rank is the position (1…N): equal totals still get different ranks (Q-02 a). */
+  /** Top of group A. Rank is the position (1…N): equal totals still get different ranks. */
   async topOfGroupA(limit: number): Promise<readonly TopGroupAEntry[]> {
     const rows = await findTopOfGroup(this.prisma, GROUP_A, limit);
     return rows.map((row, index) => {

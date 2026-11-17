@@ -12,7 +12,7 @@ const row = (rank: number, overrides: Record<string, unknown> = {}) => ({
 });
 const rows = (n: number) => Array.from({ length: n }, (_, index) => row(index + 1));
 
-describe("parseTopGroupAResponse (GS-04-AC01, AC03)", () => {
+describe("parseTopGroupAResponse", () => {
   it("accepts 10 rows", () => {
     expect(parseTopGroupAResponse(rows(10))).toHaveLength(10);
   });
@@ -21,7 +21,7 @@ describe("parseTopGroupAResponse (GS-04-AC01, AC03)", () => {
     expect(parseTopGroupAResponse([])).toEqual([]);
   });
 
-  it("keeps the API's order and a total such as 28.6 exactly (GS-04-AC04)", () => {
+  it("keeps the API's order and a total such as 28.6 exactly", () => {
     const parsed = parseTopGroupAResponse([row(1, { total: 28.6 }), row(2, { total: 28.6 })]);
     expect(parsed?.map((r) => r.total)).toEqual([28.6, 28.6]);
     expect(parsed?.map((r) => r.sbd)).toEqual(["26020001", "26020002"]);

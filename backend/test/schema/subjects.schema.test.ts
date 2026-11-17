@@ -9,8 +9,8 @@ afterAll(async () => {
   await prisma.$disconnect();
 });
 
-describe("GS-05-AC02 the subject registry and the candidates table agree", () => {
-  it("GS-05-AC02: score columns of candidates (all but sbd and ma_ngoai_ngu) are exactly subjects.codes()", async () => {
+describe("the subject registry and the candidates table agree", () => {
+  it("score columns of candidates (all but sbd and ma_ngoai_ngu) are exactly subjects.codes()", async () => {
     const rows = await prisma.$queryRaw<{ column_name: string }[]>`
       SELECT column_name FROM information_schema.columns
       WHERE table_schema = 'public' AND table_name = 'candidates'`;

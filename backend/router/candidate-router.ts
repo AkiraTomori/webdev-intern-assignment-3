@@ -7,7 +7,7 @@ import { AppError } from "../util/app-error";
 
 export function candidateRouter(service: CandidateService): Router {
   const router = Router();
-  // An empty SBD is a format error (GS-02-AC04), not "route not found". Matches "/api/candidates" and "/api/candidates/".
+  // An empty SBD is a format error, not "route not found". Matches "/api/candidates" and "/api/candidates/".
   router.get("/", () => {
     throw new AppError(400, "INVALID_SBD", "SBD must be exactly 8 digits");
   });

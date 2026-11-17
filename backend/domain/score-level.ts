@@ -5,7 +5,7 @@ export type ScoreLevelKey = "gte8" | "gte6" | "gte4" | "lt4";
 /**
  * The four score levels and their boundaries, in one place. Intervals are
  * half-open: min is inclusive, max is exclusive, null means unbounded. `key`
- * and `label` are the API contract (api.md §4); the UI translates by `key`.
+ * and `label` are what the API returns; the UI translates by `key`.
  */
 export class ScoreLevel {
   private constructor(
@@ -23,7 +23,7 @@ export class ScoreLevel {
     new ScoreLevel("lt4", "< 4", null, threshold("4")),
   ]);
 
-  /** A subject that was not sat has no score, so no level: null is rejected by the type (GS-03-AC02). */
+  /** A subject that was not sat has no score, so no level: null is rejected by the type. */
   static of(score: Score): ScoreLevel {
     const level = ScoreLevel.all.find((candidate) => candidate.contains(score));
     if (!level) throw new Error(`No score level contains ${score.toString()}`); // unreachable while the invariant holds

@@ -59,7 +59,7 @@ export async function findCandidateBySbd(prisma: PrismaClient, sbd: string): Pro
       continue;
     }
     const parsed = Score.parse(value.toString());
-    // DB1's CHECK constraints make this unreachable; if it ever happens it is corrupt data, not a client error.
+    // The table's CHECK constraints make this unreachable; if it ever happens it is corrupt data, not a client error.
     if (!parsed.ok) throw new Error(`Stored ${code} score for a candidate is not a valid score (${parsed.reason})`);
     scores[code] = parsed.score;
   }

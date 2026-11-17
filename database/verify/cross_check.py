@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""G-Scores V1: independent cross-check of the API against the raw CSV.
+"""G-Scores: independent cross-check of the API against the raw CSV.
 
-Deliberately shares NO code with the application (design: docs/design/v1-data-cross-check.md):
+Deliberately shares NO code with the application:
   * its own CSV parser (stdlib `csv`), reads the file directly, never the database;
-  * thresholds re-derived from the assignment README (>=8, 6<=x<8, 4<=x<6, <4);
+  * thresholds written out again here (>=8, 6<=x<8, 4<=x<6, <4), not imported from the app;
   * blank cell = subject not taken (skipped, never 0);
   * `decimal.Decimal` built from the CSV text, never `float`; SBD always a string.
 
@@ -52,7 +52,7 @@ TIE_KS = (10, 20)            # ranks whose ties we report (default top, ?limit=2
 POOL_PRUNE_AT = 4096         # prune the top-candidate pool beyond this size
 SAMPLE_SIZE = 150            # random SBDs for lookup check
 SAMPLE_SEED = 2024
-PINNED_SBDS = ("01000001", "01095066")                       # from api §3 and design §3.2
+PINNED_SBDS = ("01000001", "01095066")                       # two SBDs whose scores are checked field by field
 ABSENT_PROBES = ("00000000", "99999999", "12345678", "00000001")  # first one absent from CSV is used
 MAX_PRINT = 10               # mismatches printed per section
 
@@ -469,7 +469,7 @@ def print_csv_summary(a, rep, sha_before, sha_after):
     sha_ok = sha_before == sha_after
     print(f"CSV: {a.rows} rows, {a.bad_count} bad rows, header OK")
     if a.bad_count:
-        rep.fail("csv", f"{a.bad_count} bad rows (spec GS-01-AC06 expects 0)")
+        rep.fail("csv", f"{a.bad_count} bad rows (the dataset is expected to have none)")
         for line_no, reason in a.bad_examples:
             print(f"    line {line_no}: {reason}")
     if not sha_ok:
@@ -493,7 +493,7 @@ def run_check(args):
     rep = Report()
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
     git = git_info(repo_root)
-    print(f"G-Scores V1 cross-check  {stamp}  git {git or 'n/a'}  csv sha256 {sha_after} "
+    print(f"G-Scores cross-check  {stamp}  git {git or 'n/a'}  csv sha256 {sha_after} "
           f"({'unchanged' if sha_before == sha_after else 'CHANGED'})")
     print_csv_summary(a, rep, sha_before, sha_after)
     check_levels(api, a, rep)

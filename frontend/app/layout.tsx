@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const locale = await getLocale();
 
-  // No className or data-theme here: next-themes owns those, and a re-render for a language change must not touch them (F0-AC12).
+  // No className or data-theme here: next-themes owns those, and a re-render for a language change must not touch them.
   return (
     <html lang={locale} suppressHydrationWarning>
       <body>

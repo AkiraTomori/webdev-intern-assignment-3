@@ -46,10 +46,10 @@ export function LookupView() {
   const submit = useCallback(() => {
     const input = inputRef.current;
     if (!input) return;
-    // Look up exactly what the person sees: write the trimmed value back (design F1-F3 §3.2).
+    // Look up exactly what the person sees: write the trimmed value back.
     const sbd = normalizeSbd(input.value);
     input.value = sbd;
-    // The button is disabled while loading; keep focus in the input so the next SBD can be typed (design §3.4).
+    // The button is disabled while loading; keep focus in the input so the next SBD can be typed.
     input.focus();
     void search(sbd);
   }, [search]);

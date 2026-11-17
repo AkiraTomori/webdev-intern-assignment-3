@@ -6,7 +6,7 @@ export type SubjectLevelCounts = { code: SubjectCode; total: number; counts: Rec
 /** Subjects in SUBJECT_CODES order, whatever order the API used. */
 export type ScoreLevelsReport = { subjects: SubjectLevelCounts[] };
 
-/** Accepts api.md §4. The four counts of each subject must add up to its total (GS-03-AC02). */
+/** Accepts the score-level report shape. The four counts of each subject must add up to its total. */
 export function parseScoreLevelsResponse(data: unknown): ScoreLevelsReport | null {
   if (!isRecord(data) || !Array.isArray(data.levels) || !Array.isArray(data.subjects)) return null;
 
@@ -47,7 +47,7 @@ export function toChartRows(report: ScoreLevelsReport, subjectLabel: (code: Subj
   return report.subjects.map(({ code, total, counts }) => ({ code, name: subjectLabel(code), total, ...counts }));
 }
 
-/** B3 answers 200 with zeros when the table is not seeded (design B3+B4), so "empty" means all totals are 0. */
+/** The report endpoint answers 200 with zeros when the table is not seeded, so "empty" means all totals are 0. */
 export function isEmptyReport(report: ScoreLevelsReport): boolean {
   return report.subjects.every((subject) => subject.total === 0);
 }

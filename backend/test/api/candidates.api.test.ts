@@ -47,7 +47,7 @@ const get = async (path: string) => {
 };
 
 describe("GET /api/candidates/:sbd", () => {
-  it("GS-02-AC01 returns scores for an existing SBD", async () => {
+  it("returns scores for an existing SBD", async () => {
     const { res, body } = await get("/api/candidates/01000001");
     expect(res.status).toBe(200);
     expect(candidateResponseSchema.parse(body).data).toEqual({
@@ -59,7 +59,7 @@ describe("GET /api/candidates/:sbd", () => {
     expect(typeof body.data.scores.toan).toBe("number");
   });
 
-  it("GS-02-AC02 not-taken subjects are null, never 0", async () => {
+  it("not-taken subjects are null, never 0", async () => {
     const first = await get("/api/candidates/01000001");
     for (const code of ["lich_su", "dia_li", "gdcd"] as const) expect(first.body.data.scores[code]).toBeNull();
     const second = await get("/api/candidates/10000001");
@@ -67,14 +67,14 @@ describe("GET /api/candidates/:sbd", () => {
     expect(second.body.data.scores.vat_li).toBeNull();
   });
 
-  it("GS-02-AC03 valid but unknown SBD returns 404", async () => {
+  it("valid but unknown SBD returns 404", async () => {
     const { res, body } = await get("/api/candidates/99999999");
     expect(res.status).toBe(404);
     expect(body.error.code).toBe("CANDIDATE_NOT_FOUND");
     expect(body.error.code).not.toBe("INVALID_SBD");
   });
 
-  describe("GS-02-AC04 rejects malformed SBD", () => {
+  describe("rejects malformed SBD", () => {
     it.each([
       ["7 digits", "/api/candidates/1234567"],
       ["9 digits", "/api/candidates/123456789"],
@@ -93,14 +93,14 @@ describe("GET /api/candidates/:sbd", () => {
     });
   });
 
-  it("GS-02-AC05 keeps leading zero", async () => {
+  it("keeps leading zero", async () => {
     expect((await get("/api/candidates/01000001")).res.status).toBe(200);
     const stripped = await get("/api/candidates/1000001");
     expect(stripped.res.status).toBe(400);
     expect(stripped.body.data).toBeUndefined();
   });
 
-  it("GS-02-AC06 returns foreign language code", async () => {
+  it("returns foreign language code", async () => {
     expect((await get("/api/candidates/01000001")).body.data.foreignLanguageCode).toBe("N1");
     expect((await get("/api/candidates/10000001")).body.data.foreignLanguageCode).toBeNull();
   });

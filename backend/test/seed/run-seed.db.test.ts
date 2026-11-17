@@ -39,7 +39,7 @@ function seed(csvPath: string, options: { fresh?: boolean; batchSize?: number } 
 }
 
 describe("runSeed", () => {
-  it("GS-01-AC03/AC04: loads the sample, keeps the leading zero, stores empty cells as NULL and 0 as 0.00", async () => {
+  it("loads the sample, keeps the leading zero, stores empty cells as NULL and 0 as 0.00", async () => {
     const report = await seed(fixture("sample.csv"));
     expect(report).toMatchObject({ outcome: "seeded", exitCode: 0, dataRows: 7, inserted: 7, tableCount: 7 });
 
@@ -50,20 +50,20 @@ describe("runSeed", () => {
     expect(rows[2]).toEqual({ sbd: "01000003", toan: "0.00", ngoai_ngu: null, lich_su: null, ma_ngoai_ngu: null });
   });
 
-  it("GS-01-AC02: inserts in batches, including a short last batch", async () => {
+  it("inserts in batches, including a short last batch", async () => {
     const report = await seed(fixture("sample.csv"), { batchSize: 3 });
     expect(report).toMatchObject({ outcome: "seeded", inserted: 7, batches: 3 });
     expect(await countCandidates(prisma)).toBe(7);
   });
 
-  it("GS-01-AC05: a second run on a full table does nothing and exits 0", async () => {
+  it("a second run on a full table does nothing and exits 0", async () => {
     await seed(fixture("sample.csv"));
     const report = await seed(fixture("sample.csv"));
     expect(report).toMatchObject({ outcome: "already-full", exitCode: 0, inserted: 0, tableCount: 7 });
     expect(await countCandidates(prisma)).toBe(7);
   });
 
-  it("GS-01-AC05: refuses a table that holds a different number of rows than the CSV", async () => {
+  it("refuses a table that holds a different number of rows than the CSV", async () => {
     await seed(csvOf("two.csv", ["01000001,5,,,,,,,,,", "01000002,6,,,,,,,,,"]));
     const report = await seed(fixture("sample.csv"));
     expect(report).toMatchObject({ outcome: "refused", inserted: 0 });
@@ -71,20 +71,20 @@ describe("runSeed", () => {
     expect(await countCandidates(prisma)).toBe(2);
   });
 
-  it("GS-01-AC05: --fresh reloads a full table without doubling it", async () => {
+  it("--fresh reloads a full table without doubling it", async () => {
     await seed(fixture("sample.csv"));
     const report = await seed(fixture("sample.csv"), { fresh: true });
     expect(report).toMatchObject({ outcome: "seeded", exitCode: 0, inserted: 7, tableCount: 7 });
     expect(await countCandidates(prisma)).toBe(7);
   });
 
-  it("GS-01-AC05: --fresh also repairs a half-loaded table", async () => {
+  it("--fresh also repairs a half-loaded table", async () => {
     await seed(csvOf("two.csv", ["01000001,5,,,,,,,,,", "01000002,6,,,,,,,,,"]));
     const report = await seed(fixture("sample.csv"), { fresh: true });
     expect(report).toMatchObject({ outcome: "seeded", tableCount: 7 });
   });
 
-  it("GS-01-AC06: invalid rows are reported with line numbers and reasons, and nothing is written", async () => {
+  it("invalid rows are reported with line numbers and reasons, and nothing is written", async () => {
     const report = await seed(fixture("invalid.csv"));
     expect(report.outcome).toBe("invalid-rows");
     expect(report.exitCode).not.toBe(0);
@@ -100,14 +100,14 @@ describe("runSeed", () => {
     expect(await countCandidates(prisma)).toBe(0);
   });
 
-  it("GS-01-AC06: an invalid CSV does not even truncate a full table when --fresh is given", async () => {
+  it("an invalid CSV does not even truncate a full table when --fresh is given", async () => {
     await seed(fixture("sample.csv"));
     const report = await seed(fixture("invalid.csv"), { fresh: true });
     expect(report.outcome).toBe("invalid-rows");
     expect(await countCandidates(prisma)).toBe(7);
   });
 
-  it("GS-01-AC06: stops pass 2 when a row is rejected because the file changed between the passes", async () => {
+  it("stops pass 2 when a row is rejected because the file changed between the passes", async () => {
     const path = csvOf("changes.csv", [
       "01000001,5,,,,,,,,,",
       "01000002,6,,,,,,,,,",
@@ -148,7 +148,7 @@ describe("runSeed", () => {
     expect(report.exitCode).not.toBe(0);
   });
 
-  it("GS-01-AC07: never modifies the CSV it reads", async () => {
+  it("never modifies the CSV it reads", async () => {
     const hash = () => createHash("sha256").update(readFileSync(fixture("sample.csv"))).digest("hex");
     const before = hash();
     await seed(fixture("sample.csv"));

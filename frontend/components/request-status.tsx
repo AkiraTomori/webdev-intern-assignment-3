@@ -14,7 +14,7 @@ export function LoadingBlock({ height }: { height: string }) {
   );
 }
 
-/** Error inside the card, never a blank page (GS-03-AC06). `onRetry` is left out when retrying cannot help. */
+/** Error inside the card, never a blank page. `onRetry` is left out when retrying cannot help. */
 export function ErrorBlock({ errorKey, onRetry }: { errorKey: ApiErrorKey; onRetry?: () => void }) {
   const t = useTranslations();
   return (

@@ -1,4 +1,4 @@
-// Small checks shared by the response parsers (design F1-F3 §2.5). No library: F0 §8 q5.
+// Small checks shared by the response parsers. No validation library: the shapes are small.
 export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }

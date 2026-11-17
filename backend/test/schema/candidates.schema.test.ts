@@ -15,8 +15,8 @@ afterAll(async () => {
 
 const SBD = "01000001";
 
-describe("GS-01-AC01 schema from migrations", () => {
-  it("GS-01-AC01: table candidates has exactly the 11 columns of the candidates table", async () => {
+describe("schema from migrations", () => {
+  it("table candidates has exactly the 11 columns of the candidates table", async () => {
     const rows = await prisma.$queryRaw<{ column_name: string }[]>`
       SELECT column_name FROM information_schema.columns
       WHERE table_schema = 'public' AND table_name = 'candidates' ORDER BY column_name`;
@@ -25,7 +25,7 @@ describe("GS-01-AC01 schema from migrations", () => {
     );
   });
 
-  it("GS-01-AC01: running migrate deploy again is a no-op", () => {
+  it("running migrate deploy again is a no-op", () => {
     const out = execFileSync("npx", ["prisma", "migrate", "deploy"], {
       cwd: new URL("../..", import.meta.url),
       env: { ...process.env, DATABASE_URL: url },
@@ -34,8 +34,8 @@ describe("GS-01-AC01 schema from migrations", () => {
   });
 });
 
-describe("GS-01-AC04 SBD is a string that keeps leading zeros", () => {
-  it("GS-01-AC04: 01000001 round-trips as the string '01000001'", async () => {
+describe("SBD is a string that keeps leading zeros", () => {
+  it("01000001 round-trips as the string '01000001'", async () => {
     await prisma.candidate.create({ data: { sbd: SBD } });
     const row = await prisma.candidate.findUnique({ where: { sbd: "01000001" } });
     expect(row?.sbd).toBe("01000001");
@@ -47,18 +47,18 @@ describe("GS-01-AC04 SBD is a string that keeps leading zeros", () => {
     ["9 digits", "010000012"],
     ["non-digit character", "0100000a"],
     ["empty", ""],
-  ])("GS-01-AC04: rejects SBD with %s", async (_label, sbd) => {
+  ])("rejects SBD with %s", async (_label, sbd) => {
     await expect(prisma.candidate.create({ data: { sbd } })).rejects.toThrow();
   });
 
-  it("GS-01-AC04: rejects a duplicate SBD", async () => {
+  it("rejects a duplicate SBD", async () => {
     await prisma.candidate.create({ data: { sbd: SBD } });
     await expect(prisma.candidate.create({ data: { sbd: SBD } })).rejects.toThrow();
   });
 });
 
-describe("GS-01-AC03 a blank score is NULL, never 0", () => {
-  it("GS-01-AC03: subjects that were not entered read back as null", async () => {
+describe("a blank score is NULL, never 0", () => {
+  it("subjects that were not entered read back as null", async () => {
     await prisma.candidate.create({ data: { sbd: SBD, toan: "8.4" } });
     const row = await prisma.candidate.findUniqueOrThrow({ where: { sbd: SBD } });
     expect(row.toan?.toString()).toBe("8.4");
@@ -67,7 +67,7 @@ describe("GS-01-AC03 a blank score is NULL, never 0", () => {
     }
   });
 
-  it("GS-01-AC03: a real 0 score is stored as 0 and is distinct from NULL", async () => {
+  it("a real 0 score is stored as 0 and is distinct from NULL", async () => {
     await prisma.candidate.create({ data: { sbd: "00000001", dia_li: "0" } }); // CSV has 59 genuine zeros in dia_li
     await prisma.candidate.create({ data: { sbd: "00000002" } });
     const zero = await prisma.candidate.findUniqueOrThrow({ where: { sbd: "00000001" } });

@@ -11,7 +11,7 @@ const subject = (code: string, counts = { gte8: 1, gte6: 2, gte4: 3, lt4: 4 }) =
 });
 const valid = () => ({ levels, subjects: SUBJECT_CODES.map((code) => subject(code)) });
 
-describe("parseScoreLevelsResponse (GS-03-AC02, AC05)", () => {
+describe("parseScoreLevelsResponse", () => {
   it("accepts nine subjects with four counts each", () => {
     const report = parseScoreLevelsResponse(valid());
     expect(report?.subjects).toHaveLength(9);
@@ -74,7 +74,7 @@ describe("parseScoreLevelsResponse (GS-03-AC02, AC05)", () => {
   });
 });
 
-describe("toChartRows (GS-03-AC03)", () => {
+describe("toChartRows", () => {
   it("makes one row per subject in SUBJECT_CODES order, numbers unchanged, names from the label function", () => {
     const rows = toChartRows(parseScoreLevelsResponse(valid())!, (code) => `label:${code}`);
     expect(rows.map((row) => row.code)).toEqual([...SUBJECT_CODES]);

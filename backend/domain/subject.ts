@@ -12,11 +12,11 @@ export type SubjectScoreResult =
 /** A raw row as the caller read it (e.g. one CSV record). The domain does not know about CSV. */
 export type RawRow = Readonly<Record<string, string>>;
 
-const MAX_SCORE_HUNDREDTHS = 1000; // 10.00; mirrors the CHECK constraints in the migration (DB1 §3.3)
+const MAX_SCORE_HUNDREDTHS = 1000; // 10.00; mirrors the score CHECK constraints in the migration
 
 /**
  * One subject. `code` is the single name of the subject: CSV column, database
- * column, Prisma field and JSON key are all the same string (DB1 §3.2).
+ * column, Prisma field and JSON key are all the same string.
  * `name` is the Vietnamese fallback for the API; the UI translates by `code`.
  */
 export class Subject<C extends string = string> {
@@ -47,7 +47,7 @@ export class Subject<C extends string = string> {
 /**
  * The foreign-language subject carries an exam code (`ma_ngoai_ngu`) that
  * exists if and only if there is a score (CHECK candidates_ngoai_ngu_code_pair_chk).
- * It does not list N1..N7 (Q-04): only presence and the VARCHAR(2) length.
+ * It does not list the known codes (N1..N7): only presence and the VARCHAR(2) length are checked.
  */
 export class ForeignLanguageSubject<C extends string = string> extends Subject<C> {
   readonly examCodeField = "ma_ngoai_ngu";

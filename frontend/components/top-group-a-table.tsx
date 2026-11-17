@@ -4,7 +4,7 @@ import { formatScore } from "@/lib/format-score";
 import card from "./card.module.css";
 import styles from "./top-group-a-view.module.css";
 
-/** Rows in the order the API sent them; nothing here sorts (GS-04-AC05). */
+/** Rows in the order the API sent them; nothing here sorts. */
 export function TopGroupATable({ rows }: { rows: TopGroupARow[] }) {
   const t = useTranslations();
   return (

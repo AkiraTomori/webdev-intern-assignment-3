@@ -4,7 +4,7 @@ import type { NewCandidate } from "../../backend/model/candidate-model";
 import { checkHeader, parseCandidateRow, type RowIssue } from "./candidate-row";
 import { readCsvLines } from "./csv-lines";
 
-// Measured (POC-1): @prisma/debug keeps the arguments of its last 100 debug() calls even when DEBUG is off,
+// Measured: @prisma/debug keeps the arguments of its last 100 debug() calls even when DEBUG is off,
 // and @prisma/adapter-pg logs every statement with its SQL and all parameters. Retained heap is therefore
 // ~100 x one batch: ~110 MB at 1,000 rows, ~750 MB at 5,000 rows (which ran out of a 200 MB heap).
 export const DEFAULT_BATCH_SIZE = 1000;
@@ -140,7 +140,8 @@ export async function runSeed(options: SeedOptions): Promise<SeedReport> {
     return finish("invalid-rows", 1, `Có ${issues.total} lỗi trong CSV, chưa ghi gì vào CSDL.`);
   }
 
-  // Q-06: decide from the table state, only now that the file is known to be clean.
+  // Decide from the table state, only now that the file is known to be clean:
+  // a full table is left alone, a partial one needs --fresh.
   const existing = await countCandidates(prisma);
   if (existing > 0 && !fresh) {
     if (existing === report.dataRows) {
@@ -182,7 +183,7 @@ export async function runSeed(options: SeedOptions): Promise<SeedReport> {
         if (batch.length >= batchSize) await flush(lineNo);
       },
       (rowIssues, lineNo) => {
-        // Pass 1 accepted every row, so a rejection here means the file changed between the passes (design §3.8a).
+        // Pass 1 accepted every row, so a rejection here means the file changed between the passes.
         const reasons = [...new Set(rowIssues.map((issue) => issue.reason))].join(", ");
         throw new Error(`dòng CSV ${lineNo} bị từ chối ở lượt 2 (${reasons}); file đã đổi giữa hai lượt`);
       },

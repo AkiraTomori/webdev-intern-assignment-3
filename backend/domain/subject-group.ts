@@ -8,7 +8,7 @@ export type ScoreMap<C extends string> = Partial<Record<C, Score | null>>;
 /**
  * A combination of subjects built from the registry (e.g. group A). It knows
  * which subjects count and what "complete" means; the top 10 query computes
- * the same thing in SQL, with `codes()` supplying the columns (P5).
+ * the same thing in SQL, with `codes()` supplying the columns, so the database does the sorting.
  */
 export class SubjectGroup<C extends string> {
   constructor(

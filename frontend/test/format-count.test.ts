@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { formatCount } from "../lib/format-count";
 
-describe("formatCount (design F1-F3 §4.5)", () => {
+describe("formatCount", () => {
   it.each([
     [0, "0", "0"],
     [999, "999", "999"],
