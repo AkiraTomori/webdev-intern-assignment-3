@@ -21,6 +21,8 @@ function backendUrl(): string {
 const nextConfig: NextConfig = {
   // `next dev` otherwise writes a frontend/AGENTS.md; agent rules live in the root AGENTS.md.
   agentRules: false,
+  // No floating Next.js badge in the corner while developing.
+  devIndicators: false,
   // The browser calls /api/* on the frontend origin; Next forwards it to the backend. No CORS.
   async rewrites() {
     return [{ source: "/api/:path*", destination: `${backendUrl()}/api/:path*` }];

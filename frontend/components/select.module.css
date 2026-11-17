@@ -6,16 +6,39 @@
   color: var(--text-muted);
 }
 
+/* The native arrow sits hard against the right edge and ignores padding, so draw our own,
+   centred vertically, with the same room on the right as the text has on the left. */
+.control {
+  position: relative;
+  display: inline-flex;
+}
+
+.control::after {
+  content: "";
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: translateY(-75%) rotate(45deg);
+  pointer-events: none;
+}
+
 .field select {
+  appearance: none;
   font: inherit;
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 0.3rem 0.5rem;
-  min-height: 2rem;
+  padding: 0.3rem 2.1rem 0.3rem 0.7rem;
+  min-height: 2.25rem;
+  cursor: pointer;
 }
 
 .field select:disabled {
   opacity: 0.7;
+  cursor: default;
 }

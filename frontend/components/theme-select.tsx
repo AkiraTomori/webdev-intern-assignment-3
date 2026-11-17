@@ -17,13 +17,15 @@ export function ThemeSelect() {
   return (
     <label className={styles.field}>
       <span>{t("label")}</span>
-      <select value={mounted ? (theme ?? "system") : "system"} disabled={!mounted} onChange={(event) => setTheme(event.target.value)}>
+      <span className={styles.control}>
+        <select value={mounted ? (theme ?? "system") : "system"} disabled={!mounted} onChange={(event) => setTheme(event.target.value)}>
         {themes.map((name) => (
           <option key={name} value={name}>
             {t(name)}
           </option>
         ))}
       </select>
+      </span>
     </label>
   );
 }
