@@ -12,9 +12,9 @@ G-Scores là ứng dụng web tra cứu và thống kê điểm thi THPT 2024 t�
 |---|---|
 | ![Tra cứu điểm](./screenshots/g-scores-lookup.png) | ![Báo cáo](./screenshots/g-scores-reports.png) |
 
-| Top 10 khối A | Tiếng Anh, giao diện tối |
+| Top 10 khối A | Tra cứu, tiếng Anh, giao diện tối |
 |---|---|
-| ![Top 10 khối A](./screenshots/g-scores-top-group-a.png) | ![Giao diện tối, tiếng Anh](./screenshots/g-scores-dark-en.png) |
+| ![Top 10 khối A](./screenshots/g-scores-top-group-a.png) | ![Tra cứu, tiếng Anh, giao diện tối](./screenshots/g-scores-dark-en.png) |
 
 ### Đối chiếu với đề bài
 
@@ -56,7 +56,7 @@ cp .env.example .env            # giá trị cho PostgreSQL local, không chứa
 docker compose -f infrastructure/docker-compose.yaml up -d --wait
 npm run db:generate -w backend  # sinh Prisma Client (Prisma 7 không tự sinh khi cài)
 npm run db:migrate  -w backend  # áp migration lên CSDL rỗng
-npm run db:seed     -w backend  # nạp 1.061.605 dòng, khoảng __SEED__ giây
+npm run db:seed     -w backend  # nạp 1.061.605 dòng, khoảng 35 giây
 npm run dev                     # API :4000 + web :3000, Ctrl+C dừng cả hai
 ```
 
@@ -67,7 +67,7 @@ Mở http://localhost:3000. Không cần tạo `frontend/.env.local`: frontend m
 - `curl http://localhost:4000/api/health` trả `{"data":{"status":"ok"}}`.
 - Tra `01000001`: Toán 8,4, Ngữ văn 6,75, Ngoại ngữ 8,0, Vật lí 6,0, Hoá học 5,25, Sinh học 5,0; ba môn còn lại hiện "Không thi".
 - Báo cáo: tổng bốn mức của Toán là 1.045.613.
-- Top 10 khối A: hạng 1 là `__TOP1__`.
+- Top 10 khối A: hạng 1 là `26020938` (29,6 điểm).
 
 **Dừng:** `docker compose -f infrastructure/docker-compose.yaml down` (giữ dữ liệu); thêm `-v` để xoá cả dữ liệu.
 
@@ -104,7 +104,7 @@ npm run build -w frontend
 python3 -I database/verify/cross_check.py --csv dataset/diem_thi_thpt_2024.csv --api http://127.0.0.1:4000
 ```
 
-Mã thoát 0 là khớp. Kết quả chạy __VERIFY_DATE__: **9/9 môn × 4 mức khớp CSV, top 10 (10/10) và top 20 (20/20) khớp, 164/164 SBD mẫu khớp**; thời gian chạy khoảng 9 giây.
+Mã thoát 0 là khớp. Kết quả chạy 17/11/2026 trên bản clone mới từ GitHub: **9/9 môn × 4 mức khớp CSV, top 10 (10/10) và top 20 (20/20) khớp, 164/164 SBD mẫu khớp**; thời gian chạy khoảng 9 giây.
 
 ### Quy tắc dữ liệu đã chọn
 
@@ -128,7 +128,7 @@ Mã thoát 0 là khớp. Kết quả chạy __VERIFY_DATE__: **9/9 môn × 4 m�
 ### Xử lý sự cố
 
 - **Cổng bị chiếm** (5433, 4000, 3000): tắt tiến trình đang dùng cổng đó. Với PostgreSQL có thể đặt `POSTGRES_PORT=5434` khi chạy `docker compose` rồi sửa cổng trong `DATABASE_URL` và `DATABASE_URL_TEST` ở `.env`.
-- **Lỗi thiếu Prisma Client** khi chạy backend: chạy `npm run db:generate -w backend`.
+- **Backend báo `Cannot find module …/backend/generated/prisma/client`:** chưa sinh Prisma Client; chạy `npm run db:generate -w backend`.
 - **Seed lần hai:** nếu bảng đã đủ dòng thì seeder báo "Bảng đã đủ … thí sinh, không làm gì". Nạp lại từ đầu: `npm run db:seed -w backend -- --fresh` (**xoá** dữ liệu hiện có).
 - **Đổi `BACKEND_URL`:** phải `npm run build -w frontend` lại.
 - **Trang báo cáo báo "chưa có dữ liệu":** chưa chạy `db:seed`.
