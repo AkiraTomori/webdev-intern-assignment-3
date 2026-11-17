@@ -1,0 +1,25 @@
+# Used instead of the root .dockerignore for frontend/Dockerfile (BuildKit).
+.git
+**/node_modules
+**/.next
+**/*.tsbuildinfo
+**/next-env.d.ts
+.env
+.env.*
+**/.env
+**/.env.*
+dataset
+docs
+screenshots
+.claude
+.claude-plugin
+.agents
+plugins
+infrastructure
+scripts
+database
+backend/*
+!backend/package.json
+!backend/domain
+!backend/schema
+*.log
