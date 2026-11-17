@@ -70,7 +70,14 @@
   },
   "topGroupA": {
     "title": "Top 10 group A",
-    "placeholder": "The top 10 group A table will appear here."
+    "intro": "The ten candidates with the highest Mathematics, Physics and Chemistry total.",
+    "caption": "Top 10 group A candidates by total score",
+    "rank": "Rank",
+    "sbd": "Reg. no.",
+    "total": "Total",
+    "note": "Only candidates who took Mathematics, Physics and Chemistry are counted. Equal totals are ordered by registration number, ascending.",
+    "empty": "There are no candidates to rank yet.",
+    "emptyHint": "Run the seeder to load the exam scores into the database, then reload the page."
   },
   "subject": {
     "toan": "Mathematics",

@@ -70,7 +70,14 @@
   },
   "topGroupA": {
     "title": "Top 10 khối A",
-    "placeholder": "Bảng top 10 khối A sẽ có ở đây."
+    "intro": "Mười thí sinh có tổng điểm Toán, Vật lí, Hoá học cao nhất.",
+    "caption": "Top 10 thí sinh khối A theo tổng điểm",
+    "rank": "Hạng",
+    "sbd": "SBD",
+    "total": "Tổng",
+    "note": "Chỉ xét thí sinh thi đủ Toán, Vật lí, Hoá học. Bằng tổng điểm thì xếp theo SBD tăng dần.",
+    "empty": "Chưa có thí sinh nào để xếp hạng.",
+    "emptyHint": "Hãy chạy seeder để nạp điểm thi vào cơ sở dữ liệu, rồi tải lại trang."
   },
   "subject": {
     "toan": "Toán",
