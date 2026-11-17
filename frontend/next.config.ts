@@ -1,4 +1,5 @@
 import createNextIntlPlugin from "next-intl/plugin";
+import path from "node:path";
 import type { NextConfig } from "next";
 
 // The only place BACKEND_URL is read (codebase §3). Never echo the value.
@@ -19,6 +20,10 @@ function backendUrl(): string {
 }
 
 const nextConfig: NextConfig = {
+  // Docker image (design N2b): `next build` also emits a self-contained server in .next/standalone.
+  output: "standalone",
+  // node_modules is hoisted to the repo root, so trace from there; server.js lands in standalone/frontend/.
+  outputFileTracingRoot: path.join(import.meta.dirname, ".."),
   // `next dev` otherwise writes a frontend/AGENTS.md; agent rules live in the root AGENTS.md.
   agentRules: false,
   // No floating Next.js badge in the corner while developing.
