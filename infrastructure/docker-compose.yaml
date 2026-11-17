@@ -1,12 +1,22 @@
-# Local development database only. Application containers (backend, frontend,
-# seeder) are ticket N2 and are not defined here yet.
+# G-Scores in Docker. Run from the repo root.
 #
-# Run from the repo root:
-#   docker compose -f infrastructure/docker-compose.yaml up -d
+# Database only (local development; `npm run dev` runs the API and web on the host):
+#   docker compose -f infrastructure/docker-compose.yaml up -d --wait
 #
-# Local-only: bound to 127.0.0.1 with no password (trust auth), so there is no
-# secret in this file. Do not reuse this setup on a public host.
+# Whole app (PostgreSQL + migrate + seed + API + web), the profile "app":
+#   ./docker-up.sh      (= docker compose -f infrastructure/docker-compose.yaml --profile app up -d --build)
+#   ./docker-down.sh    (stops the containers, keeps the data)
+#
+# Local-only: ports are bound to 127.0.0.1 and PostgreSQL uses trust auth (no password), so there
+# is no secret in this file. Do not reuse this setup on a public host.
 name: g-scores
+
+x-app-build: &app-build
+  context: ..
+  dockerfile: infrastructure/docker/Dockerfile
+
+x-app-env: &app-env
+  DATABASE_URL: postgresql://postgres@postgres:5432/g_scores
 
 services:
   postgres:
@@ -26,6 +36,63 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+
+  # One-shot: apply migrations, then seed. Seeding is a no-op once the table is full (GS-01-AC05).
+  # Never pass --fresh here: it deletes data.
+  seed:
+    profiles: [app]
+    build:
+      <<: *app-build
+      target: api
+    image: g-scores-api
+    environment: *app-env
+    command: ["sh", "-c", "npm run db:migrate -w backend && npm run db:seed -w backend"]
+    volumes:
+      # Read-only: the dataset cannot be modified from the container (GS-01-AC07).
+      - ../dataset:/app/dataset:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    profiles: [app]
+    build:
+      <<: *app-build
+      target: api
+    image: g-scores-api
+    restart: unless-stopped
+    environment:
+      <<: *app-env
+      PORT: "4000"
+    ports:
+      - "127.0.0.1:${API_PORT:-4000}:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4000/api/health').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  web:
+    profiles: [app]
+    build:
+      <<: *app-build
+      target: web
+      args:
+        BACKEND_URL: http://api:4000
+    image: g-scores-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${WEB_PORT:-3000}:3000"
+    depends_on:
+      api:
+        condition: service_healthy
 
 volumes:
   pgdata:
