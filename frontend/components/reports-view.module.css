@@ -2,10 +2,16 @@
   overflow-x: auto;
 }
 
-/* 36 bars need room: below 640px the frame scrolls, the page does not (design F1-F3 §4.6). */
+/* Columns: 36 bars need room, so the frame scrolls rather than the page (design F1-F3 §4.6).
+   Narrow frames (< 560px, see lib/chart-layout.ts) switch to horizontal bars and need no scroll. */
 .chart {
   min-width: 640px;
   height: 360px;
+}
+
+.chartBars {
+  width: 100%;
+  /* height is set inline from the number of subjects */
 }
 
 .tableSection {

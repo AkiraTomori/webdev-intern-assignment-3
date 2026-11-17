@@ -42,3 +42,10 @@
   opacity: 0.7;
   cursor: default;
 }
+
+/* Fingers need 44px (WCAG 2.5.5); a mouse keeps the compact size (design N1 §N1.3). */
+@media (pointer: coarse) {
+  .field select {
+    min-height: 2.75rem;
+  }
+}
