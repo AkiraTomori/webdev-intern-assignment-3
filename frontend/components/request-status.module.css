@@ -1,0 +1,55 @@
+.loading {
+  background: var(--border);
+  opacity: 0.35;
+  border-radius: 8px;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading {
+    animation: none;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.error p {
+  margin: 0;
+  color: var(--danger);
+}
+
+.button {
+  font: inherit;
+  min-height: 2.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}

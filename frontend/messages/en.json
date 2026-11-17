@@ -22,6 +22,10 @@
     },
     "footer": "G-Scores · 2024 national high school exam scores"
   },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again"
+  },
   "home": {
     "title": "G-Scores",
     "intro": "Look up and analyse the 2024 national high school exam scores.",
@@ -42,15 +46,38 @@
   },
   "lookup": {
     "title": "Score lookup",
-    "placeholder": "Score lookup will appear here."
+    "formTitle": "Look up by registration number",
+    "sbdLabel": "Registration number",
+    "sbdHint": "The number has exactly 8 digits, for example 01000001.",
+    "submit": "Look up",
+    "submitting": "Looking up…",
+    "resultTitle": "Result · Registration number {sbd}",
+    "subjectColumn": "Subject",
+    "scoreColumn": "Score",
+    "notTaken": "Not taken",
+    "foreignLanguageWithCode": "Foreign language ({code})"
   },
   "reports": {
     "title": "Reports",
-    "placeholder": "The score statistics chart will appear here."
+    "intro": "Number of candidates in four score bands for each subject. Only candidates who took the subject are counted.",
+    "chartLabel": "Bar chart: number of candidates in four score bands for nine subjects. The full figures are in the table below.",
+    "tableCaption": "Number of candidates by score band and subject",
+    "subjectColumn": "Subject",
+    "totalColumn": "Candidates with a score",
+    "tooltipTotal": "{count} candidates with a score",
+    "empty": "There is no data to report yet.",
+    "emptyHint": "Run the seeder to load the exam scores into the database, then reload the page."
   },
   "topGroupA": {
     "title": "Top 10 group A",
-    "placeholder": "The top 10 group A table will appear here."
+    "intro": "The ten candidates with the highest Mathematics, Physics and Chemistry total.",
+    "caption": "Top 10 group A candidates by total score",
+    "rank": "Rank",
+    "sbd": "Reg. no.",
+    "total": "Total",
+    "note": "Only candidates who took Mathematics, Physics and Chemistry are counted. Equal totals are ordered by registration number, ascending.",
+    "empty": "There are no candidates to rank yet.",
+    "emptyHint": "Run the seeder to load the exam scores into the database, then reload the page."
   },
   "subject": {
     "toan": "Mathematics",

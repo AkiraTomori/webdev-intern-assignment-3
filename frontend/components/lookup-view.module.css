@@ -1,0 +1,44 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  min-height: 2.5rem;
+  padding: 0.4rem 0.6rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.hint {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.errors:empty {
+  display: none;
+}
+
+.notTaken {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.sbd {
+  font-variant-numeric: tabular-nums;
+}

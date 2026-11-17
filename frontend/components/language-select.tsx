@@ -22,13 +22,15 @@ export function LanguageSelect() {
   return (
     <label className={styles.field}>
       <span>{t("label")}</span>
-      <select value={locale} disabled={pending} onChange={(event) => change(event.target.value)}>
+      <span className={styles.control}>
+        <select value={locale} disabled={pending} onChange={(event) => change(event.target.value)}>
         {locales.map((code) => (
           <option key={code} value={code}>
             {t(code)}
           </option>
         ))}
       </select>
+      </span>
     </label>
   );
 }

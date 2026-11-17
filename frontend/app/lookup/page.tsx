@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { LookupView } from "@/components/lookup-view";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("lookup");
@@ -12,7 +13,7 @@ export default async function LookupPage() {
   return (
     <>
       <h1>{t("title")}</h1>
-      <p>{t("placeholder")}</p>
+      <LookupView />
     </>
   );
 }

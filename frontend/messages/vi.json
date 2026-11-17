@@ -22,6 +22,10 @@
     },
     "footer": "G-Scores · Dữ liệu điểm thi THPT 2024"
   },
+  "common": {
+    "loading": "Đang tải…",
+    "retry": "Thử lại"
+  },
   "home": {
     "title": "G-Scores",
     "intro": "Tra cứu và thống kê điểm thi THPT 2024.",
@@ -42,15 +46,38 @@
   },
   "lookup": {
     "title": "Tra cứu điểm",
-    "placeholder": "Chức năng tra cứu điểm sẽ có ở đây."
+    "formTitle": "Tra cứu theo số báo danh",
+    "sbdLabel": "Số báo danh",
+    "sbdHint": "SBD gồm đúng 8 chữ số, ví dụ 01000001.",
+    "submit": "Tra cứu",
+    "submitting": "Đang tra cứu…",
+    "resultTitle": "Kết quả · SBD {sbd}",
+    "subjectColumn": "Môn",
+    "scoreColumn": "Điểm",
+    "notTaken": "Không thi",
+    "foreignLanguageWithCode": "Ngoại ngữ ({code})"
   },
   "reports": {
     "title": "Báo cáo",
-    "placeholder": "Biểu đồ thống kê điểm sẽ có ở đây."
+    "intro": "Số thí sinh theo bốn mức điểm của từng môn. Chỉ tính thí sinh có thi môn đó.",
+    "chartLabel": "Biểu đồ cột: số thí sinh theo bốn mức điểm của chín môn. Số liệu đầy đủ nằm ở bảng bên dưới.",
+    "tableCaption": "Số thí sinh theo mức điểm và theo môn",
+    "subjectColumn": "Môn",
+    "totalColumn": "Tổng số thí sinh có điểm",
+    "tooltipTotal": "{count} thí sinh có điểm",
+    "empty": "Chưa có dữ liệu để thống kê.",
+    "emptyHint": "Hãy chạy seeder để nạp điểm thi vào cơ sở dữ liệu, rồi tải lại trang."
   },
   "topGroupA": {
     "title": "Top 10 khối A",
-    "placeholder": "Bảng top 10 khối A sẽ có ở đây."
+    "intro": "Mười thí sinh có tổng điểm Toán, Vật lí, Hoá học cao nhất.",
+    "caption": "Top 10 thí sinh khối A theo tổng điểm",
+    "rank": "Hạng",
+    "sbd": "SBD",
+    "total": "Tổng",
+    "note": "Chỉ xét thí sinh thi đủ Toán, Vật lí, Hoá học. Bằng tổng điểm thì xếp theo SBD tăng dần.",
+    "empty": "Chưa có thí sinh nào để xếp hạng.",
+    "emptyHint": "Hãy chạy seeder để nạp điểm thi vào cơ sở dữ liệu, rồi tải lại trang."
   },
   "subject": {
     "toan": "Toán",

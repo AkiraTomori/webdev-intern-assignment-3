@@ -1,6 +1,11 @@
 {
   "name": "g-scores",
   "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "npm run dev -w frontend",
+    "dev:api": "npm run dev -w backend"
+  },
   "workspaces": [
     "backend",
     "frontend"

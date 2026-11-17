@@ -1,0 +1,25 @@
+.chartFrame {
+  overflow-x: auto;
+}
+
+/* 36 bars need room: below 640px the frame scrolls, the page does not (design F1-F3 §4.6). */
+.chart {
+  min-width: 640px;
+  height: 360px;
+}
+
+.tableSection {
+  margin-top: 1.5rem;
+}
+
+.total {
+  color: var(--text-muted);
+}
+
+.swatch {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 2px;
+  margin-right: 0.4rem;
+}
